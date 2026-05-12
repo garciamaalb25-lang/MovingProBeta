@@ -40,5 +40,5 @@ public class Mudanza {
     @OneToMany(mappedBy = "mudanza")
     private List<MudanzaVehiculo> vehiculos = new ArrayList<>();
 }
-	
+
 

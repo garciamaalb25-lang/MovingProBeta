@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MudanzaService {
 
+	
 	private final MudanzaRepository mudanzaRepository;
 
 	public List<Mudanza> findAll() {
