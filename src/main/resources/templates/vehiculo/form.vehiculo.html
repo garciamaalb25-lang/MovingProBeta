@@ -8,6 +8,7 @@
 </head>
 
 <body>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="container mt-4">
 
         <h2 class="mb-4" th:text="${vehiculo.idVehiculo == null} ? 'Nuevo Vehículo' : 'Editar Vehículo'"></h2>
