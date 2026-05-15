@@ -17,8 +17,8 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/css/**", "/js/**").permitAll()
-                .requestMatchers("/mudanza/**", "/vehiculo/**", "/operario/**").hasAnyRole("ADMIN", "OPERADOR")
                 .requestMatchers("/mudanza/delete/**", "/vehiculo/delete/**", "/operario/delete/**").hasRole("ADMIN")
+                .requestMatchers("/mudanza/edit/**", "/vehiculo/edit/**", "/operario/edit/**").hasRole("ADMIN")
                 .anyRequest().authenticated())
             .requestCache(cache -> {
                 HttpSessionRequestCache requestCache = new HttpSessionRequestCache();

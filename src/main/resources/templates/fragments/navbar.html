@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
@@ -8,7 +9,6 @@
             <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
                 <i class="bi bi-truck"></i>
                 <span>MovingPro</span>
-
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -16,7 +16,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/mudanza}">Mudanzas</a>
                     </li>
@@ -25,6 +25,25 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/operario}">Operarios</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <span class="nav-link text-warning" sec:authentication="name"></span>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                        <span class="nav-link badge bg-danger">ADMIN</span>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasRole('OPERADOR')">
+                        <span class="nav-link badge bg-primary">OPERADOR</span>
+                    </li>
+                    <li class="nav-item">
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn btn-outline-danger btn-sm mt-1">
+                                Cerrar sesión
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>

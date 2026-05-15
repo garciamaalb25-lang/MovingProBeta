@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -8,12 +9,13 @@
 </head>
 
 <body>
-	<div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
     <div class="container mt-4">
         
         <h2 class="mb-4">Listado de Mudanzas</h2>
 
-        <a th:href="@{/mudanza/new}" class="btn btn-primary mb-3">Nueva Mudanza</a>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/mudanza/new}" class="btn btn-primary mb-3">Nueva Mudanza</a>
 
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
@@ -24,7 +26,7 @@
                     <th>Coste</th>
                     <th>Horas</th>
                     <th>Fecha</th>
-                    <th>Acciones</th>
+                    <th sec:authorize="hasRole('ADMIN')">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +37,7 @@
                     <td th:text="${mudanza.coste} + ' €'"></td>
                     <td th:text="${mudanza.numeroHoras}"></td>
                     <td th:text="${#temporals.format(mudanza.fecha, 'dd/MM/yyyy')}"></td>
-                    <td>
+                    <td sec:authorize="hasRole('ADMIN')">
                         <a th:href="@{/mudanza/edit/{id}(id=${mudanza.idMudanza})}" 
                            class="btn btn-warning btn-sm">Editar</a>
                         <a th:href="@{/mudanza/delete/{id}(id=${mudanza.idMudanza})}" 
