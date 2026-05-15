@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MovingPro Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .hero {
+            min-height: 40vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(229, 57, 53, 0.15) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(13, 71, 161, 0.2) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -2px;
+            background: linear-gradient(90deg, #ffffff, #e53935, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            margin-top: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .stats-section {
+            background: #0a0a0a;
+            padding: 60px 0;
+        }
+
+        .stat-card {
+            background: #111111;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #e53935, #ff7043);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            border-color: #e53935;
+            box-shadow: 0 20px 40px rgba(229, 57, 53, 0.15);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #e53935;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .actions-section {
+            background: #0d0d0d;
+            padding: 60px 0;
+        }
+
+        .action-card {
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 30px;
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            color: #fff;
+            background: #1a1a1a;
+            transform: scale(1.02);
+            border-color: #333;
+        }
+
+        .action-card .icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .action-card h5 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .action-card p {
+            color: #555;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .action-card .arrow {
+            float: right;
+            color: #e53935;
+            font-size: 1.2rem;
+            margin-top: -30px;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #e53935;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <div style="position: relative; z-index: 1;">
+            <div class="hero-title">MOVING<span style="-webkit-text-fill-color: #e53935;">PRO</span></div>
+            <div class="hero-subtitle">Sistema de gestión de mudanzas</div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-section">
+        <div class="container">
+            <p class="section-title text-center">— Panel de control —</p>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="bi bi-box-seam"></i></div>
+						<div class="stat-number" th:text="${totalMudanzas}"></div>
+                        <div class="stat-label">Mudanzas registradas</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="bi bi-truck"></i></div>
+                        <div class="stat-number" th:text="${totalVehiculos}"></div>
+                        <div class="stat-label">Vehículos en flota</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="bi bi-person-workspace"></i></div>
+                        <div class="stat-number" th:text="${totalOperarios}"></div>
+                        <div class="stat-label">Operarios activos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acciones rápidas -->
+    <div class="actions-section">
+        <div class="container">
+            <p class="section-title">— Acciones rápidas —</p>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <a th:href="@{/mudanza}" class="action-card">
+                        <div class="icon"><i class="bi bi-box-seam"></i></div>
+                        <h5>Gestionar Mudanzas</h5>
+                        <p>Ver, crear y editar mudanzas</p>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a th:href="@{/vehiculo}" class="action-card">
+                        <div class="icon"><i class="bi bi-truck"></i></div>
+                        <h5>Gestionar Vehículos</h5>
+                        <p>Controlar la flota de vehículos</p>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a th:href="@{/operario}" class="action-card">
+                        <div class="icon"><i class="bi bi-person-workspace"></i></div>
+                        <h5>Gestionar Operarios</h5>
+                        <p>Administrar el equipo de trabajo</p>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a th:href="@{/mudanza/new}" class="action-card">
+                        <div class="icon"><i class="bi bi-plus-circle"></i></div>
+                        <h5>Nueva Mudanza</h5>
+                        <p>Registrar una nueva mudanza</p>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a th:href="@{/vehiculo/new}" class="action-card">
+                        <div class="icon"><i class="bi bi-truck-front"></i></div>
+                        <h5>Nuevo Vehículo</h5>
+                        <p>Añadir vehículo a la flota</p>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a th:href="@{/operario/new}" class="action-card">
+                        <div class="icon"><i class="bi bi-person-plus"></i></div>
+                        <h5>Nuevo Operario</h5>
+                        <p>Registrar un nuevo operario</p>
+                        <span class="arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
