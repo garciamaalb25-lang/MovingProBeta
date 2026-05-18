@@ -1,59 +1,80 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <title>Formulario Mudanza</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-
 <body>
-	<div th:replace="~{fragments/navbar :: navbar}"></div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="container mt-4">
-
         <h2 class="mb-4" th:text="${mudanza.idMudanza == null} ? 'Nueva Mudanza' : 'Editar Mudanza'"></h2>
-
         <form th:action="@{/mudanza/save}" th:object="${mudanza}" method="post">
-
             <input type="hidden" th:field="*{idMudanza}" />
 
             <div class="mb-3">
                 <label class="form-label">Código</label>
-                <input type="number" class="form-control" th:field="*{codigo}" />
+                <input type="number" min="1" max="99999" class="form-control" th:field="*{codigo}"
+                       required
+                       th:classappend="${#fields.hasErrors('codigo')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('codigo')}"
+                     th:errors="*{codigo}"></div>
+                <div class="form-text">Entre 1 y 99999</div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Origen</label>
-                <input type="text" class="form-control" th:field="*{origen}" />
+                <input type="text" minlength="3" maxlength="100" class="form-control" th:field="*{origen}"
+                       required placeholder="Ciudad de origen"
+                       th:classappend="${#fields.hasErrors('origen')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('origen')}"
+                     th:errors="*{origen}"></div>
+                <div class="form-text">Entre 3 y 100 caracteres</div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Destino</label>
-                <input type="text" class="form-control" th:field="*{destino}" />
+                <input type="text" minlength="3" maxlength="100" class="form-control" th:field="*{destino}"
+                       required placeholder="Ciudad de destino"
+                       th:classappend="${#fields.hasErrors('destino')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('destino')}"
+                     th:errors="*{destino}"></div>
+                <div class="form-text">Entre 3 y 100 caracteres</div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Coste (€)</label>
-                <input type="number" step="0.01" class="form-control" th:field="*{coste}" />
+                <input type="number" step="0.01" min="1" max="99999" class="form-control" th:field="*{coste}"
+                       required
+                       th:classappend="${#fields.hasErrors('coste')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('coste')}"
+                     th:errors="*{coste}"></div>
+                <div class="form-text">Entre 1 € y 99999 €</div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Número de Horas</label>
-                <input type="number" class="form-control" th:field="*{numeroHoras}" />
+                <input type="number" min="1" max="720" class="form-control" th:field="*{numeroHoras}"
+                       required
+                       th:classappend="${#fields.hasErrors('numeroHoras')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('numeroHoras')}"
+                     th:errors="*{numeroHoras}"></div>
+                <div class="form-text">Entre 1 y 720 horas</div>
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Fecha</label>
-                <input type="date" class="form-control" th:field="*{fecha}" />
+                <input type="date" class="form-control" th:field="*{fecha}"
+                       required
+                       th:classappend="${#fields.hasErrors('fecha')} ? 'is-invalid'" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('fecha')}"
+                     th:errors="*{fecha}"></div>
             </div>
 
             <button type="submit" class="btn btn-success">Guardar</button>
             <a th:href="@{/mudanza}" class="btn btn-secondary">Cancelar</a>
-
         </form>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
