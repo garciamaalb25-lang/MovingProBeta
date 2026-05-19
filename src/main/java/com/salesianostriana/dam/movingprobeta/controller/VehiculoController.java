@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.salesianostriana.dam.movingprobeta.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.service.VehiculoService;
+
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -46,5 +49,21 @@ public class VehiculoController {
     public String delete(@PathVariable Long id) {
         vehiculoService.deleteById(id);
         return "redirect:/vehiculo";
+    }
+    
+    @GetMapping("/buscar")
+    public String buscarVehiculos(@RequestParam(required = false) String disponible,
+                                   @RequestParam(required = false) Double capacidadMinima,
+                                   Model model) {
+        if (disponible != null && disponible.equals("false")) {
+            model.addAttribute("vehiculos", vehiculoService.findVehiculosNoDisponibles());
+        } else if (disponible != null && disponible.equals("true")) {
+            model.addAttribute("vehiculos", vehiculoService.findVehiculosDisponibles());
+        } else if (capacidadMinima != null) {
+            model.addAttribute("vehiculos", vehiculoService.findByCapacidadMinima(capacidadMinima));
+        } else {
+            model.addAttribute("vehiculos", vehiculoService.findAll());
+        }
+        return "vehiculo/list";
     }
 }
