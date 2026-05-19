@@ -5,4 +5,6 @@ import com.salesianostriana.dam.movingprobeta.Mudanza;
 
 public interface MudanzaRepository extends JpaRepository<Mudanza, Long> {
 
+	
+	
 }

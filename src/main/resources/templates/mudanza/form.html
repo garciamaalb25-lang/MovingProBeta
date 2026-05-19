@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div th:replace="~{fragments/navbar :: navbar}"></div>
-    <div class="container mt-4">
+    <div class="container mt-4 flex-grow-1">
         <h2 class="mb-4" th:text="${mudanza.idMudanza == null} ? 'Nueva Mudanza' : 'Editar Mudanza'"></h2>
         <form th:action="@{/mudanza/save}" th:object="${mudanza}" method="post">
             <input type="hidden" th:field="*{idMudanza}" />
@@ -51,7 +51,7 @@
             <div class="mb-3">
                 <label class="form-label">Número de Horas</label>
                 <input type="number" min="1" max="720" class="form-control" th:field="*{numeroHoras}"
-                       required
+                       id="numeroHoras" required
                        th:classappend="${#fields.hasErrors('numeroHoras')} ? 'is-invalid'" />
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('numeroHoras')}"
                      th:errors="*{numeroHoras}"></div>
@@ -71,5 +71,6 @@
     </div>
     <div th:replace="~{fragments/footer :: footer}"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/validaciones.js}"></script>
 </body>
 </html>
