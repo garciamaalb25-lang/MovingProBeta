@@ -11,7 +11,27 @@
     <div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="container mt-4 flex-grow-1">
         <h2 class="mb-4">Listado de Operarios</h2>
+
         <a sec:authorize="hasRole('ADMIN')" th:href="@{/operario/new}" class="btn btn-primary mb-3">Nuevo Operario</a>
+
+        <div class="card bg-dark border-secondary mb-4">
+            <div class="card-body">
+                <h5 class="card-title text-white mb-3">
+                    <i class="bi bi-search"></i> Buscar operarios
+                </h5>
+                <form th:action="@{/operario/buscar}" method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label text-white">Experiencia mínima (años)</label>
+                        <input type="number" class="form-control" name="experienciaMinima" min="0" max="50" />
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end gap-2">
+                        <button type="submit" class="btn btn-danger">Buscar</button>
+                        <a th:href="@{/operario}" class="btn btn-secondary">Limpiar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <table class="table table-striped table-bordered">
             <thead class="table-dark">
                 <tr>

@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.salesianostriana.dam.movingprobeta.Operario;
 import com.salesianostriana.dam.movingprobeta.service.OperarioService;
+
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -46,5 +49,16 @@ public class OperarioController {
     public String delete(@PathVariable Long id) {
         operarioService.deleteById(id);
         return "redirect:/operario";
+    }
+    
+    @GetMapping("/buscar")
+    public String buscarOperarios(@RequestParam(required = false) Integer experienciaMinima,
+                                   Model model) {
+        if (experienciaMinima != null) {
+            model.addAttribute("operarios", operarioService.findOperariosExperimentados(experienciaMinima));
+        } else {
+            model.addAttribute("operarios", operarioService.findAll());
+        }
+        return "operario/list";
     }
 }
