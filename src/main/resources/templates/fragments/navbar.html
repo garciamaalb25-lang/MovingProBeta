@@ -1,48 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
-        <div class="container">
+	<div th:fragment="navbar"
+		style="position: fixed; top: 0; left: 250px; right: 0; height: 60px; background: #ffffff; border-bottom: 0.5px solid #B5D4F4; z-index: 99; display: flex; align-items: center; justify-content: space-between; padding: 0 30px;">
 
-            <a class="navbar-brand d-flex align-items-center gap-2" th:href="@{/}">
-                <i class="bi bi-truck"></i>
-                <span>MovingPro</span>
-            </a>
+		<div style="display: flex; align-items: center; gap: 8px;">
+			<i class="bi bi-speedometer2" style="color: #1B3A6B; font-size: 18px;"></i>
+			<span style="color: #1B3A6B; font-size: 15px; font-weight: 600;" id="pageTitle">Panel de control</span>
+		</div>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/mudanza}">Mudanzas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/vehiculo}">Vehículos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/operario}">Operarios</a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <span class="nav-link text-warning" sec:authentication="name"></span>
-                    </li>
-                    <li class="nav-item">
-                        <form th:action="@{/logout}" method="post">
-                            <button type="submit" class="btn btn-outline-danger btn-sm mt-1">
-                                Cerrar sesión
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+		<div style="display: flex; align-items: center; gap: 16px;">
+			<div style="display: flex; align-items: center; gap: 8px;">
+				<span
+					style="background: #E6F1FB; color: #1B3A6B; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
+					sec:authorize="hasRole('ADMIN')">
+					<i class="bi bi-shield-check me-1"></i>Admin
+				</span>
+				<span
+					style="background: #E1F5EE; color: #085041; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
+					sec:authorize="hasRole('OPERADOR')">
+					<i class="bi bi-person-check me-1"></i>Operador
+				</span>
+			</div>
+			<span style="color: #1B3A6B; font-size: 14px; font-weight: 600;" sec:authentication="name"></span>
+		</div>
+	</div>
 </body>
 
 </html>
