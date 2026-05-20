@@ -1,98 +1,243 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Listado de Mudanzas</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+	<meta charset="UTF-8">
+	<title>Mudanzas - MovingPro</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+	<style>
+		body {
+			background: #F4F7FB;
+			font-family: 'Segoe UI', sans-serif;
+			margin: 0;
+		}
+
+		.main-content {
+			margin-left: 250px;
+			padding-top: 60px;
+			min-height: 100vh;
+		}
+
+		.content-area {
+			padding: 30px;
+		}
+
+		.page-title {
+			font-size: 22px;
+			font-weight: 700;
+			color: #1B3A6B;
+			margin-bottom: 4px;
+		}
+
+		.page-subtitle {
+			color: #378ADD;
+			font-size: 13px;
+			margin-bottom: 24px;
+		}
+
+		.card-table {
+			background: #ffffff;
+			border-radius: 12px;
+			border: 0.5px solid #B5D4F4;
+			overflow: hidden;
+		}
+
+		.card-header-custom {
+			padding: 20px 24px;
+			border-bottom: 0.5px solid #B5D4F4;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.search-area {
+			padding: 16px 24px;
+			background: #F4F7FB;
+			border-bottom: 0.5px solid #B5D4F4;
+		}
+
+		.search-area label {
+			color: #1B3A6B;
+			font-size: 12px;
+			font-weight: 600;
+		}
+
+		table thead th {
+			background: #F4F7FB;
+			color: #1B3A6B;
+			font-size: 12px;
+			font-weight: 600;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			border: none;
+			padding: 12px 16px;
+		}
+
+		table tbody td {
+			padding: 12px 16px;
+			font-size: 14px;
+			border-bottom: 0.5px solid #F4F7FB;
+		}
+
+		table tbody tr:hover {
+			background: #F4F7FB;
+		}
+
+		.btn-editar {
+			background: #FAEEDA;
+			color: #854F0B;
+			border: none;
+			font-size: 12px;
+			padding: 4px 12px;
+			border-radius: 6px;
+			text-decoration: none;
+		}
+
+		.btn-eliminar-custom {
+			background: #FCEBEB;
+			color: #A32D2D;
+			border: none;
+			font-size: 12px;
+			padding: 4px 12px;
+			border-radius: 6px;
+			cursor: pointer;
+		}
+
+		.btn-nuevo {
+			background: #1B3A6B;
+			color: #E6F1FB;
+			border: none;
+			font-size: 13px;
+			padding: 8px 18px;
+			border-radius: 8px;
+			text-decoration: none;
+		}
+
+		.btn-nuevo:hover {
+			background: #2A5298;
+			color: #E6F1FB;
+		}
+
+		.btn-buscar {
+			background: #1B3A6B;
+			color: #E6F1FB;
+			border: none;
+			padding: 6px 16px;
+			border-radius: 6px;
+			font-size: 13px;
+		}
+
+		.btn-limpiar {
+			background: #ffffff;
+			color: #1B3A6B;
+			border: 0.5px solid #B5D4F4;
+			padding: 6px 16px;
+			border-radius: 6px;
+			font-size: 13px;
+			text-decoration: none;
+		}
+	</style>
 </head>
-<body class="d-flex flex-column min-vh-100">
-    <div th:replace="~{fragments/navbar :: navbar}"></div>
-    <div class="container mt-4 flex-grow-1">
-        <h2 class="mb-4">Listado de Mudanzas</h2>
 
-        <a sec:authorize="hasRole('ADMIN')" th:href="@{/mudanza/new}" class="btn btn-primary mb-3">Nueva Mudanza</a>
+<body>
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-        <div class="card bg-dark border-secondary mb-4">
-            <div class="card-body">
-                <h5 class="card-title text-white mb-3">
-                    <i class="bi bi-search"></i> Buscar por fecha
-                </h5>
-                <form th:action="@{/mudanza/buscar}" method="get" class="row g-3">
-                    <div class="col-md-3">
-                        <label class="form-label text-white">Fecha exacta</label>
-                        <input type="date" class="form-control" name="fecha" />
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label text-white">Fecha inicio</label>
-                        <input type="date" class="form-control" name="fechaInicio" />
-                    </div>
-                    <div class="col-md-3">
-                        <label class="form-label text-white">Fecha fin</label>
-                        <input type="date" class="form-control" name="fechaFin" />
-                    </div>
-                    <div class="col-md-3 d-flex align-items-end gap-2">
-                        <button type="submit" class="btn btn-danger">Buscar</button>
-                        <a th:href="@{/mudanza}" class="btn btn-secondary">Limpiar</a>
-                    </div>
-                </form>
-            </div>
-        </div>
+	<div class="main-content">
+		<div class="content-area">
+			<p class="page-title">Mudanzas</p>
+			<p class="page-subtitle">Gestión completa de mudanzas registradas</p>
 
-        <table class="table table-striped table-bordered">
-            <thead class="table-dark">
-                <tr>
-                    <th>Código</th>
-                    <th>Origen</th>
-                    <th>Destino</th>
-                    <th>Coste</th>
-                    <th>Horas</th>
-                    <th>Fecha</th>
-                    <th sec:authorize="hasRole('ADMIN')">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="mudanza : ${mudanzas}">
-                    <td th:text="${mudanza.codigo}"></td>
-                    <td th:text="${mudanza.origen}"></td>
-                    <td th:text="${mudanza.destino}"></td>
-                    <td th:text="${mudanza.coste} + ' €'"></td>
-                    <td th:text="${mudanza.numeroHoras}"></td>
-                    <td th:text="${#temporals.format(mudanza.fecha, 'dd/MM/yyyy')}"></td>
-                    <td sec:authorize="hasRole('ADMIN')">
-                        <a th:href="@{/mudanza/edit/{id}(id=${mudanza.idMudanza})}"
-                           class="btn btn-warning btn-sm">Editar</a>
-                        <a th:href="@{/mudanza/delete/{id}(id=${mudanza.idMudanza})}"
-                           class="btn btn-danger btn-sm btn-eliminar">Eliminar</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+			<div class="card-table">
+				<div class="card-header-custom">
+					<h6 style="color: #1B3A6B; font-weight: 700; margin: 0; font-size: 15px;">
+						<i class="bi bi-box-seam me-2"></i>Listado de mudanzas
+					</h6>
+					<a sec:authorize="hasRole('ADMIN')" th:href="@{/mudanza/new}" class="btn-nuevo">
+						<i class="bi bi-plus-circle me-1"></i>Nueva Mudanza
+					</a>
+				</div>
 
-    <div class="modal fade" id="modalConfirmar" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header border-danger">
-                    <h5 class="modal-title">
-                        <i class="bi bi-exclamation-triangle text-danger"></i> Confirmar eliminación
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    ¿Estás seguro de que quieres eliminar este registro? Esta acción no se puede deshacer.
-                </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="search-area">
+					<form th:action="@{/mudanza/buscar}" method="get" class="row g-2 align-items-end">
+						<div class="col-md-3">
+							<label class="form-label">Fecha exacta</label>
+							<input type="date" class="form-control form-control-sm" name="fecha" />
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Fecha inicio</label>
+							<input type="date" class="form-control form-control-sm" name="fechaInicio" />
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Fecha fin</label>
+							<input type="date" class="form-control form-control-sm" name="fechaFin" />
+						</div>
+						<div class="col-md-3 d-flex gap-2">
+							<button type="submit" class="btn-buscar">Buscar</button>
+							<a th:href="@{/mudanza}" class="btn-limpiar">Limpiar</a>
+						</div>
+					</form>
+				</div>
 
-    <div th:replace="~{fragments/footer :: footer}"></div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script th:src="@{/js/validaciones.js}"></script>
+				<table class="table mb-0">
+					<thead>
+						<tr>
+							<th>Código</th>
+							<th>Origen</th>
+							<th>Destino</th>
+							<th>Coste</th>
+							<th>Horas</th>
+							<th>Fecha</th>
+							<th sec:authorize="hasRole('ADMIN')">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="mudanza : ${mudanzas}">
+							<td th:text="${mudanza.codigo}"></td>
+							<td th:text="${mudanza.origen}"></td>
+							<td th:text="${mudanza.destino}"></td>
+							<td th:text="${mudanza.coste} + ' €'"></td>
+							<td th:text="${mudanza.numeroHoras}"></td>
+							<td th:text="${#temporals.format(mudanza.fecha, 'dd/MM/yyyy')}"></td>
+							<td sec:authorize="hasRole('ADMIN')">
+								<a th:href="@{/mudanza/edit/{id}(id=${mudanza.idMudanza})}"
+									class="btn-editar">Editar</a>
+								<a th:href="@{/mudanza/delete/{id}(id=${mudanza.idMudanza})}"
+									class="btn-eliminar-custom btn-eliminar ms-1">Eliminar</a>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(mudanzas)}">
+							<td colspan="7" style="text-align: center; color: #B5D4F4; padding: 24px;">No hay mudanzas
+								registradas</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalConfirmar" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" style="background: #1B3A6B;">
+					<h5 class="modal-title" style="color: #E6F1FB;">
+						<i class="bi bi-exclamation-triangle text-warning me-2"></i>Confirmar eliminación
+					</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">¿Estás seguro de que quieres eliminar este registro? Esta acción no se puede
+					deshacer.</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/validaciones.js}"></script>
 </body>
+
 </html>
