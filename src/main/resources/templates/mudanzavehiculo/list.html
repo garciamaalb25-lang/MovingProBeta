@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Mudanzas - MovingPro</title>
+	<title>Asignaciones - MovingPro</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 	<style>
@@ -51,18 +51,6 @@
 			justify-content: space-between;
 		}
 
-		.search-area {
-			padding: 16px 24px;
-			background: #F4F7FB;
-			border-bottom: 0.5px solid #B5D4F4;
-		}
-
-		.search-area label {
-			color: #1B3A6B;
-			font-size: 12px;
-			font-weight: 600;
-		}
-
 		table thead th {
 			background: #F4F7FB;
 			color: #1B3A6B;
@@ -84,9 +72,9 @@
 			background: #F4F7FB;
 		}
 
-		.btn-editar {
-			background: #FAEEDA;
-			color: #854F0B;
+		.btn-estado {
+			background: #E6F1FB;
+			color: #1B3A6B;
 			border: none;
 			font-size: 12px;
 			padding: 4px 12px;
@@ -118,25 +106,6 @@
 			background: #2A5298;
 			color: #E6F1FB;
 		}
-
-		.btn-buscar {
-			background: #1B3A6B;
-			color: #E6F1FB;
-			border: none;
-			padding: 6px 16px;
-			border-radius: 6px;
-			font-size: 13px;
-		}
-
-		.btn-limpiar {
-			background: #ffffff;
-			color: #1B3A6B;
-			border: 0.5px solid #B5D4F4;
-			padding: 6px 16px;
-			border-radius: 6px;
-			font-size: 13px;
-			text-decoration: none;
-		}
 	</style>
 </head>
 
@@ -146,70 +115,58 @@
 
 	<div class="main-content">
 		<div class="content-area">
-			<p class="page-title">Mudanzas</p>
-			<p class="page-subtitle">Gestión completa de mudanzas registradas</p>
+			<p class="page-title">Asignaciones de Vehículos</p>
+			<p class="page-subtitle">Control de vehículos asignados a mudanzas</p>
 
 			<div class="card-table">
 				<div class="card-header-custom">
 					<h6 style="color: #1B3A6B; font-weight: 700; margin: 0; font-size: 15px;">
-						<i class="bi bi-box-seam me-2"></i>Listado de mudanzas
+						<i class="bi bi-truck me-2"></i>Listado de asignaciones
 					</h6>
-					<a sec:authorize="hasAnyRole('ADMIN', 'OPERADOR')" th:href="@{/mudanza/new}" class="btn-nuevo">
-						<i class="bi bi-plus-circle me-1"></i>Nueva Mudanza
+					<a sec:authorize="hasAnyRole('ADMIN', 'OPERADOR')" th:href="@{/mudanzavehiculo/new}"
+						class="btn-nuevo">
+						<i class="bi bi-plus-circle me-1"></i>Nueva Asignación
 					</a>
-				</div>
-
-				<div class="search-area">
-					<form th:action="@{/mudanza/buscar}" method="get" class="row g-2 align-items-end">
-						<div class="col-md-3">
-							<label class="form-label">Fecha exacta</label>
-							<input type="date" class="form-control form-control-sm" name="fecha" />
-						</div>
-						<div class="col-md-3">
-							<label class="form-label">Fecha inicio</label>
-							<input type="date" class="form-control form-control-sm" name="fechaInicio" />
-						</div>
-						<div class="col-md-3">
-							<label class="form-label">Fecha fin</label>
-							<input type="date" class="form-control form-control-sm" name="fechaFin" />
-						</div>
-						<div class="col-md-3 d-flex gap-2">
-							<button type="submit" class="btn-buscar">Buscar</button>
-							<a th:href="@{/mudanza}" class="btn-limpiar">Limpiar</a>
-						</div>
-					</form>
 				</div>
 
 				<table class="table mb-0">
 					<thead>
 						<tr>
-							<th>Código</th>
-							<th>Origen</th>
-							<th>Destino</th>
-							<th>Coste</th>
-							<th>Horas</th>
-							<th>Fecha</th>
-							<th sec:authorize="hasRole('ADMIN')">Acciones</th>
+							<th>Mudanza</th>
+							<th>Vehículo</th>
+							<th>Estado</th>
+							<th>Observaciones</th>
+							<th>Fecha Asignación</th>
+							<th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="mudanza : ${mudanzas}">
-							<td th:text="${mudanza.codigo}"></td>
-							<td th:text="${mudanza.origen}"></td>
-							<td th:text="${mudanza.destino}"></td>
-							<td th:text="${mudanza.coste} + ' €'"></td>
-							<td th:text="${mudanza.numeroHoras}"></td>
-							<td th:text="${#temporals.format(mudanza.fecha, 'dd/MM/yyyy')}"></td>
-							<td sec:authorize="hasRole('ADMIN')">
-								<a th:href="@{/mudanza/edit/{id}(id=${mudanza.idMudanza})}"
-									class="btn-editar">Editar</a>
-								<a th:href="@{/mudanza/delete/{id}(id=${mudanza.idMudanza})}"
+						<tr th:each="asignacion : ${asignaciones}">
+							<td th:text="${asignacion.mudanza.origen} + ' → ' + ${asignacion.mudanza.destino}"></td>
+							<td th:text="${asignacion.vehiculo.matricula}"></td>
+							<td>
+								<span th:text="${asignacion.estado}"
+									th:style="${asignacion.estado.name() == 'EN_ORIGEN'} ? 'background:#E6F1FB; color:#1B3A6B; font-size:11px; padding:3px 10px; border-radius:20px;' :
+                                                 (${asignacion.estado.name() == 'EN_RUTA'} ? 'background:#FAEEDA; color:#854F0B; font-size:11px; padding:3px 10px; border-radius:20px;' :
+                                                 (${asignacion.estado.name() == 'EN_DESTINO'} ? 'background:#E1F5EE; color:#085041; font-size:11px; padding:3px 10px; border-radius:20px;' :
+                                                 'background:#F4F7FB; color:#666; font-size:11px; padding:3px 10px; border-radius:20px;'))">
+								</span>
+							</td>
+							<td th:text="${asignacion.observaciones} ?: '-'"></td>
+							<td
+								th:text="${asignacion.fechaAsignacion != null} ? ${#temporals.format(asignacion.fechaAsignacion, 'dd/MM/yyyy HH:mm')} : '-'">
+							</td>
+							<td>
+								<a th:href="@{/mudanzavehiculo/estado/{id}(id=${asignacion.idMudanzaVehiculo})}"
+									class="btn-estado">Cambiar estado</a>
+								<a sec:authorize="hasRole('ADMIN')"
+									th:href="@{/mudanzavehiculo/delete/{id}(id=${asignacion.idMudanzaVehiculo})}"
 									class="btn-eliminar-custom btn-eliminar ms-1">Eliminar</a>
 							</td>
 						</tr>
-						<tr th:if="${#lists.isEmpty(mudanzas)}">
-							<td colspan="7" style="text-align: center; color: #B5D4F4; padding: 24px;">No hay mudanzas
-								registradas</td>
+						<tr th:if="${#lists.isEmpty(asignaciones)}">
+							<td colspan="6" style="text-align: center; color: #B5D4F4; padding: 24px;">No hay
+								asignaciones registradas</td>
 						</tr>
 					</tbody>
 				</table>
@@ -226,8 +183,7 @@
 					</h5>
 					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
 				</div>
-				<div class="modal-body">¿Estás seguro de que quieres eliminar este registro? Esta acción no se puede
-					deshacer.</div>
+				<div class="modal-body">¿Estás seguro de que quieres eliminar esta asignación?</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
 					<button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>

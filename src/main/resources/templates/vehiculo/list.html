@@ -154,7 +154,7 @@
 					<h6 style="color: #1B3A6B; font-weight: 700; margin: 0; font-size: 15px;">
 						<i class="bi bi-truck me-2"></i>Listado de vehículos
 					</h6>
-					<a sec:authorize="hasRole('ADMIN')" th:href="@{/vehiculo/new}" class="btn-nuevo">
+					<a sec:authorize="hasAnyRole('ADMIN', 'OPERADOR')" th:href="@{/vehiculo/new}" class="btn-nuevo">
 						<i class="bi bi-plus-circle me-1"></i>Nuevo Vehículo
 					</a>
 				</div>
