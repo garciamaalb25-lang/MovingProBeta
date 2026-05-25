@@ -7,23 +7,18 @@
 
 		<div style="display: flex; align-items: center; gap: 8px;">
 			<i class="bi bi-speedometer2" style="color: #1B3A6B; font-size: 18px;"></i>
-			<span style="color: #1B3A6B; font-size: 15px; font-weight: 600;" id="pageTitle">Panel de control</span>
+			<span style="color: #1B3A6B; font-size: 15px; font-weight: 600;">Panel de control</span>
 		</div>
 
-		<div style="display: flex; align-items: center; gap: 16px;">
-			<div style="display: flex; align-items: center; gap: 8px;">
-				<span
-					style="background: #E6F1FB; color: #1B3A6B; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
-					sec:authorize="hasRole('ADMIN')">
-					<i class="bi bi-shield-check me-1"></i>Admin
-				</span>
-				<span
-					style="background: #E1F5EE; color: #085041; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
-					sec:authorize="hasRole('OPERADOR')">
-					<i class="bi bi-person-check me-1"></i>Operador
-				</span>
-			</div>
-			<span style="color: #1B3A6B; font-size: 14px; font-weight: 600;" sec:authentication="name"></span>
+		<div style="display: flex; align-items: center; gap: 12px;">
+			<span style="background: #E6F1FB; color: #1B3A6B; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
+				sec:authorize="hasRole('ADMIN')">
+				<i class="bi bi-shield-check me-1"></i>Admin
+			</span>
+			<span style="background: #E1F5EE; color: #085041; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
+				sec:authorize="hasRole('OPERADOR')">
+				<i class="bi bi-person-check me-1"></i>Operador
+			</span>
 		</div>
 	</div>
 </body>

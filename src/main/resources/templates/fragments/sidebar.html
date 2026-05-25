@@ -57,32 +57,14 @@
 				<span style="font-size: 14px;">Operarios</span>
 			</a>
 
-			<p style="color: #B5D4F4; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 16px 20px 8px; margin: 0;"
-				sec:authorize="hasRole('ADMIN')">Crear nuevo</p>
-
-			<a sec:authorize="hasRole('ADMIN')" th:href="@{/mudanza/new}"
+			<a th:href="@{/mudanzavehiculo}"
 				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
 				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
 				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-plus-circle" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Nueva Mudanza</span>
+				<i class="bi bi-link-45deg" style="font-size: 18px;"></i>
+				<span style="font-size: 14px;">Asignaciones</span>
 			</a>
 
-			<a sec:authorize="hasRole('ADMIN')" th:href="@{/vehiculo/new}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-truck-front" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Nuevo Vehículo</span>
-			</a>
-
-			<a sec:authorize="hasRole('ADMIN')" th:href="@{/operario/new}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-person-plus" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Nuevo Operario</span>
-			</a>
 		</nav>
 
 		<div style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
@@ -93,10 +75,6 @@
 				</div>
 				<div>
 					<p style="color: #E6F1FB; font-size: 13px; font-weight: 600; margin: 0;" sec:authentication="name">
-					</p>
-					<p style="color: #B5D4F4; font-size: 11px; margin: 0;" sec:authorize="hasRole('ADMIN')">
-						Administrador</p>
-					<p style="color: #B5D4F4; font-size: 11px; margin: 0;" sec:authorize="hasRole('OPERADOR')">Operador
 					</p>
 				</div>
 			</div>
