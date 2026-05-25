@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.salesianostriana.dam.movingprobeta.MudanzaVehiculo;
 
 public interface MudanzaVehiculoRepository extends JpaRepository<MudanzaVehiculo, Long> {
-
+	
 }

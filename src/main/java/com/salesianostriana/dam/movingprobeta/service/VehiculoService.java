@@ -40,6 +40,10 @@ public class VehiculoService {
                 .collect(Collectors.toList());
     }
 
+    public List<Vehiculo> findVehiculosNoDisponibles() {
+        return vehiculoRepository.findVehiculosNoDisponibles();
+    }
+
     public List<Vehiculo> findByCapacidadMinima(double capacidadMinima) {
         return vehiculoRepository.findAll()
                 .stream()

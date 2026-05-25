@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.salesianostriana.dam.movingprobeta.Operario;
+import com.salesianostriana.dam.movingprobeta.exception.OperarioNotFoundException;
 import com.salesianostriana.dam.movingprobeta.repository.OperarioRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +20,7 @@ public class OperarioService {
 
     public Operario findById(Long id) {
         return operarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Operario no encontrado con id: " + id));
+                .orElseThrow(() -> new OperarioNotFoundException(id));
     }
 
     public Operario save(Operario operario) {
@@ -31,6 +32,14 @@ public class OperarioService {
     }
 
     public List<Operario> findOperariosExperimentados(int anios) {
+        return operarioRepository.findOperariosExperimentados(anios);
+    }
+
+    public List<Operario> findOperariosActivos() {
+        return operarioRepository.findOperariosActivos();
+    }
+
+    public List<Operario> findByExperienciaMinima(int anios) {
         return operarioRepository.findAll()
                 .stream()
                 .filter(o -> o.getExperiencia() >= anios)
