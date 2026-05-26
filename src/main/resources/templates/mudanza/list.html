@@ -119,6 +119,21 @@
 			color: #E6F1FB;
 		}
 
+		.btn-pdf {
+			background: #A32D2D;
+			color: #ffffff;
+			border: none;
+			font-size: 13px;
+			padding: 8px 18px;
+			border-radius: 8px;
+			text-decoration: none;
+		}
+
+		.btn-pdf:hover {
+			background: #7A1F1F;
+			color: #ffffff;
+		}
+
 		.btn-buscar {
 			background: #1B3A6B;
 			color: #E6F1FB;
@@ -154,9 +169,14 @@
 					<h6 style="color: #1B3A6B; font-weight: 700; margin: 0; font-size: 15px;">
 						<i class="bi bi-box-seam me-2"></i>Listado de mudanzas
 					</h6>
-					<a sec:authorize="hasAnyRole('ADMIN', 'OPERADOR')" th:href="@{/mudanza/new}" class="btn-nuevo">
-						<i class="bi bi-plus-circle me-1"></i>Nueva Mudanza
-					</a>
+					<div class="d-flex gap-2">
+						<a th:href="@{/mudanza/pdf}" class="btn-pdf">
+							<i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
+						</a>
+						<a sec:authorize="hasAnyRole('ADMIN', 'OPERADOR')" th:href="@{/mudanza/new}" class="btn-nuevo">
+							<i class="bi bi-plus-circle me-1"></i>Nueva Mudanza
+						</a>
+					</div>
 				</div>
 
 				<div class="search-area">
