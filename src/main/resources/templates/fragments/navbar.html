@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
-	<div th:fragment="navbar"
+	<div th:fragment="navbar" id="topNavbar"
 		style="position: fixed; top: 0; left: 250px; right: 0; height: 60px; background: #ffffff; border-bottom: 0.5px solid #B5D4F4; z-index: 99; display: flex; align-items: center; justify-content: space-between; padding: 0 30px;">
 
 		<div style="display: flex; align-items: center; gap: 8px;">
@@ -20,6 +20,26 @@
 				<i class="bi bi-person-check me-1"></i>Operador
 			</span>
 		</div>
+	</div>
+
+	<div th:fragment="mobilenav" class="mobile-nav"
+		style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1B3A6B; padding: 10px 0; z-index: 99; justify-content: space-around;">
+		<a th:href="@{/}" style="color: #FAC775; text-decoration: none; text-align: center; font-size: 10px;">
+			<i class="bi bi-speedometer2 d-block" style="font-size: 20px;"></i>Inicio
+		</a>
+		<a th:href="@{/mudanza}" style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
+			<i class="bi bi-box-seam d-block" style="font-size: 20px;"></i>Mudanzas
+		</a>
+		<a th:href="@{/vehiculo}" style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
+			<i class="bi bi-truck d-block" style="font-size: 20px;"></i>Vehículos
+		</a>
+		<a th:href="@{/operario}" style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
+			<i class="bi bi-people d-block" style="font-size: 20px;"></i>Operarios
+		</a>
+		<a th:href="@{/mudanzavehiculo}"
+			style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
+			<i class="bi bi-link-45deg d-block" style="font-size: 20px;"></i>Asignar
+		</a>
 	</div>
 </body>
 
