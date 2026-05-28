@@ -14,7 +14,6 @@ public class UserDataSeed {
 
     @PostConstruct
     public void init() {
-
         User admin = User.builder()
                 .email("admin@movingpro.com")
                 .username("admin")
@@ -22,17 +21,15 @@ public class UserDataSeed {
                 .password(encoder.encode("admin"))
                 .role(UserRole.ADMIN)
                 .build();
-
         repo.save(admin);
 
-        User operador = User.builder()
-                .email("operador@movingpro.com")
-                .username("operador")
-                .fullname("Operador")
-                .password(encoder.encode("operador"))
+        User user = User.builder()
+                .email("user@movingpro.com")
+                .username("user")
+                .fullname("Usuario")
+                .password(encoder.encode("user"))
                 .role(UserRole.OPERADOR)
                 .build();
-
-        repo.save(operador);
+        repo.save(user);
     }
 }

@@ -136,8 +136,9 @@
 							</div>
 							<div class="col-md-6">
 								<label class="form-label">Fecha</label>
-								<input type="date" class="form-control" th:field="*{fecha}" required
-									th:classappend="${#fields.hasErrors('fecha')} ? 'is-invalid'" />
+								<input type="date" class="form-control" th:name="fecha"
+									th:value="${mudanza.fecha != null ? #temporals.format(mudanza.fecha, 'yyyy-MM-dd') : ''}"
+									required th:classappend="${#fields.hasErrors('fecha')} ? 'is-invalid'" />
 								<div class="invalid-feedback" th:if="${#fields.hasErrors('fecha')}"
 									th:errors="*{fecha}"></div>
 							</div>
