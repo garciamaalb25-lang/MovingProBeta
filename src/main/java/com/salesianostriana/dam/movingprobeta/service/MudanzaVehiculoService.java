@@ -18,71 +18,70 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MudanzaVehiculoService {
 
-    private final MudanzaVehiculoRepository mudanzaVehiculoRepository;
-    private final MudanzaRepository mudanzaRepository;
-    private final VehiculoRepository vehiculoRepository;
+	private final MudanzaVehiculoRepository mudanzaVehiculoRepository;
+	private final MudanzaRepository mudanzaRepository;
+	private final VehiculoRepository vehiculoRepository;
 
-    public List<MudanzaVehiculo> findAll() {
-        return mudanzaVehiculoRepository.findAll();
-    }
+	public List<MudanzaVehiculo> findAll() {
+		return mudanzaVehiculoRepository.findAll();
+	}
 
-    public MudanzaVehiculo findById(Long id) {
-        return mudanzaVehiculoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Asignación no encontrada con id: " + id));
-    }
+	public MudanzaVehiculo findById(Long id) {
+		return mudanzaVehiculoRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Asignación no encontrada con id: " + id));
+	}
 
-    public MudanzaVehiculo save(MudanzaVehiculo mudanzaVehiculo) {
-        return mudanzaVehiculoRepository.save(mudanzaVehiculo);
-    }
+	public MudanzaVehiculo save(MudanzaVehiculo mudanzaVehiculo) {
+		return mudanzaVehiculoRepository.save(mudanzaVehiculo);
+	}
 
-    public void deleteById(Long id) {
-        MudanzaVehiculo mv = findById(id);
-        Vehiculo vehiculo = mv.getVehiculo();
-        vehiculo.setDisponible(true);
-        vehiculoRepository.save(vehiculo);
-        mudanzaVehiculoRepository.deleteById(id);
-    }
+	public void deleteById(Long id) {
+		MudanzaVehiculo mv = findById(id);
+		Vehiculo vehiculo = mv.getVehiculo();
+		vehiculo.setDisponible(true);
+		vehiculoRepository.save(vehiculo);
+		mudanzaVehiculoRepository.deleteById(id);
+	}
 
-    public MudanzaVehiculo asignarVehiculo(Long mudanzaId, Long vehiculoId,
-                                            double pesoMudanza, String observaciones) {
-        Mudanza mudanza = mudanzaRepository.findById(mudanzaId)
-                .orElseThrow(() -> new RuntimeException("Mudanza no encontrada"));
+	public MudanzaVehiculo asignarVehiculo(Long mudanzaId, Long vehiculoId, double pesoMudanza, String observaciones) {
+		Mudanza mudanza = mudanzaRepository.findById(mudanzaId)
+				.orElseThrow(() -> new RuntimeException("Mudanza no encontrada"));
 
-        Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId)
-                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+		Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId)
+				.orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
 
-        if (!vehiculo.isDisponible()) {
-            throw new VehiculoNoDisponibleException(vehiculo.getMatricula());
-        }
+		if (!vehiculo.isDisponible()) {
+			throw new VehiculoNoDisponibleException(vehiculo.getMatricula());
+		}
 
-        if (pesoMudanza > vehiculo.getCapacidad()) {
-            throw new CapacidadExcedidaException(vehiculo.getCapacidad());
-        }
+		if (pesoMudanza > vehiculo.getCapacidad()) {
+			throw new CapacidadExcedidaException(vehiculo.getCapacidad());
+		}
 
-        vehiculo.setDisponible(false);
-        vehiculoRepository.save(vehiculo);
+		double costeCalculado = mudanza.getNumeroHoras() * vehiculo.getCostePorHora();
+		mudanza.setCoste(costeCalculado);
+		mudanzaRepository.save(mudanza);
 
-        MudanzaVehiculo mv = MudanzaVehiculo.builder()
-                .mudanza(mudanza)
-                .vehiculo(vehiculo)
-                .estado(EstadoMudanza.EN_ORIGEN)
-                .observaciones(observaciones)
-                .fechaAsignacion(LocalDateTime.now())
-                .build();
+		vehiculo.setDisponible(false);
+		vehiculoRepository.save(vehiculo);
 
-        return mudanzaVehiculoRepository.save(mv);
-    }
+		MudanzaVehiculo mv = MudanzaVehiculo.builder().mudanza(mudanza).vehiculo(vehiculo)
+				.estado(EstadoMudanza.EN_ORIGEN).observaciones(observaciones).fechaAsignacion(LocalDateTime.now())
+				.build();
 
-    public MudanzaVehiculo cambiarEstado(Long id, EstadoMudanza nuevoEstado) {
-        MudanzaVehiculo mv = findById(id);
-        mv.setEstado(nuevoEstado);
+		return mudanzaVehiculoRepository.save(mv);
+	}
 
-        if (nuevoEstado == EstadoMudanza.TERMINADO) {
-            mv.setFechaLiberacion(LocalDateTime.now());
-            mv.getVehiculo().setDisponible(true);
-            vehiculoRepository.save(mv.getVehiculo());
-        }
+	public MudanzaVehiculo cambiarEstado(Long id, EstadoMudanza nuevoEstado) {
+		MudanzaVehiculo mv = findById(id);
+		mv.setEstado(nuevoEstado);
 
-        return mudanzaVehiculoRepository.save(mv);
-    }
+		if (nuevoEstado == EstadoMudanza.TERMINADO) {
+			mv.setFechaLiberacion(LocalDateTime.now());
+			mv.getVehiculo().setDisponible(true);
+			vehiculoRepository.save(mv.getVehiculo());
+		}
+
+		return mudanzaVehiculoRepository.save(mv);
+	}
 }

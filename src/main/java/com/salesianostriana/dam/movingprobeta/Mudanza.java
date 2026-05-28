@@ -23,43 +23,41 @@ import lombok.ToString;
 
 @Entity
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Mudanza {
 
-    @Id @GeneratedValue
-    private Long idMudanza;
+	@Id
+	@GeneratedValue
+	private Long idMudanza;
 
-    @Min(value = 1, message = "El código debe ser mayor que 0")
-    @Max(value = 99999, message = "El código no puede superar 99999")
-    private int codigo;
+	@Min(value = 1, message = "El código debe ser mayor que 0")
+	@Max(value = 99999, message = "El código no puede superar 99999")
+	private int codigo;
 
-    @NotBlank(message = "El origen no puede estar vacío")
-    @Size(min = 3, max = 100, message = "El origen debe tener entre 3 y 100 caracteres")
-    private String origen;
+	@NotBlank(message = "El origen no puede estar vacío")
+	@Size(min = 3, max = 100, message = "El origen debe tener entre 3 y 100 caracteres")
+	private String origen;
 
-    @NotBlank(message = "El destino no puede estar vacío")
-    @Size(min = 3, max = 100, message = "El destino debe tener entre 3 y 100 caracteres")
-    private String destino;
+	@NotBlank(message = "El destino no puede estar vacío")
+	@Size(min = 3, max = 100, message = "El destino debe tener entre 3 y 100 caracteres")
+	private String destino;
 
-    @Min(value = 1, message = "El coste mínimo es 1 €")
-    @Max(value = 99999, message = "El coste máximo es 99999 €")
-    private double coste;
+	private double coste;
 
-    @Min(value = 1, message = "El mínimo es 1 hora")
-    @Max(value = 720, message = "El máximo es 720 horas")
-    private int numeroHoras;
+	@Min(value = 1, message = "El mínimo es 1 hora")
+	@Max(value = 720, message = "El máximo es 720 horas")
+	private int numeroHoras;
 
-    @NotNull(message = "La fecha no puede estar vacía")
-    private LocalDate fecha;
+	@NotNull(message = "La fecha no puede estar vacía")
+	private LocalDate fecha;
 
-    @ManyToMany
-    @JoinTable(name = "mudanza_operario",
-        joinColumns = @JoinColumn(name = "mudanza_id"),
-        inverseJoinColumns = @JoinColumn(name = "operario_id"))
-    private List<Operario> operarios = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "mudanza_operario", joinColumns = @JoinColumn(name = "mudanza_id"), inverseJoinColumns = @JoinColumn(name = "operario_id"))
+	private List<Operario> operarios = new ArrayList<>();
 
-    @OneToMany(mappedBy = "mudanza")
-    @ToString.Exclude
-    private List<MudanzaVehiculo> vehiculos = new ArrayList<>();
+	@OneToMany(mappedBy = "mudanza")
+	@ToString.Exclude
+	private List<MudanzaVehiculo> vehiculos = new ArrayList<>();
 }
