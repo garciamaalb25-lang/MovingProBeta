@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.salesianostriana.dam.movingprobeta.Operario;
+import com.salesianostriana.dam.movingprobeta.model.Operario;
 import com.salesianostriana.dam.movingprobeta.service.OperarioService;
 
 import lombok.RequiredArgsConstructor;

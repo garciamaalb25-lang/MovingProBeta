@@ -3,8 +3,9 @@ package com.salesianostriana.dam.movingprobeta.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import com.salesianostriana.dam.movingprobeta.Operario;
+
 import com.salesianostriana.dam.movingprobeta.exception.OperarioNotFoundException;
+import com.salesianostriana.dam.movingprobeta.model.Operario;
 import com.salesianostriana.dam.movingprobeta.repository.OperarioRepository;
 import lombok.RequiredArgsConstructor;
 

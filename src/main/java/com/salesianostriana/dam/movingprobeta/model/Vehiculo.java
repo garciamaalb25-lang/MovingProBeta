@@ -1,4 +1,4 @@
-package com.salesianostriana.dam.movingprobeta;
+package com.salesianostriana.dam.movingprobeta.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

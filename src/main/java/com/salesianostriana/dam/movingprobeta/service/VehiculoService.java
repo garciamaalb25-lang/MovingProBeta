@@ -3,10 +3,11 @@ package com.salesianostriana.dam.movingprobeta.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import com.salesianostriana.dam.movingprobeta.Vehiculo;
+
 import com.salesianostriana.dam.movingprobeta.exception.CapacidadExcedidaException;
 import com.salesianostriana.dam.movingprobeta.exception.VehiculoNoDisponibleException;
 import com.salesianostriana.dam.movingprobeta.exception.VehiculoNotFoundException;
+import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.repository.VehiculoRepository;
 import lombok.RequiredArgsConstructor;
 

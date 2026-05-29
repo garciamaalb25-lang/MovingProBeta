@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.salesianostriana.dam.movingprobeta.Mudanza;
-import com.salesianostriana.dam.movingprobeta.Vehiculo;
+
+import com.salesianostriana.dam.movingprobeta.model.Mudanza;
+import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.service.MudanzaService;
 import com.salesianostriana.dam.movingprobeta.service.OperarioService;
 import com.salesianostriana.dam.movingprobeta.service.VehiculoService;
