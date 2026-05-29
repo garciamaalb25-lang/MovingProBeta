@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.salesianostriana.dam.movingprobeta.model.EstadoMudanza;
+import com.salesianostriana.dam.movingprobeta.model.Mudanza;
 import com.salesianostriana.dam.movingprobeta.model.MudanzaVehiculo;
+import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.service.MudanzaService;
 import com.salesianostriana.dam.movingprobeta.service.MudanzaVehiculoService;
 import com.salesianostriana.dam.movingprobeta.service.VehiculoService;
@@ -28,15 +29,18 @@ public class MudanzaVehiculoController {
 
 	@GetMapping
 	public String list(Model model) {
-		model.addAttribute("asignaciones", mudanzaVehiculoService.findAll());
-		return "mudanzavehiculo/list";
+		List<MudanzaVehiculo> asignaciones = mudanzaVehiculoService.findAll();
+		model.addAttribute("asignaciones", asignaciones);
+		return "mudanzavehiculo/mudanzavehiculo-list";
 	}
 
 	@GetMapping("/new")
 	public String newForm(Model model) {
-		model.addAttribute("mudanzas", mudanzaService.findAll());
-		model.addAttribute("vehiculos", vehiculoService.findVehiculosDisponibles());
-		return "mudanzavehiculo/form";
+		List<Mudanza> mudanzas = mudanzaService.findAll();
+		List<Vehiculo> vehiculos = vehiculoService.findVehiculosDisponibles();
+		model.addAttribute("mudanzas", mudanzas);
+		model.addAttribute("vehiculos", vehiculos);
+		return "mudanzavehiculo/mudanzavehiculo-form";
 	}
 
 	@PostMapping("/save")
@@ -51,9 +55,11 @@ public class MudanzaVehiculoController {
 
 	@GetMapping("/estado/{id}")
 	public String cambiarEstadoForm(@PathVariable Long id, Model model) {
-		model.addAttribute("asignacion", mudanzaVehiculoService.findById(id));
-		model.addAttribute("estados", EstadoMudanza.values());
-		return "mudanzavehiculo/estado";
+		MudanzaVehiculo asignacion = mudanzaVehiculoService.findById(id);
+		EstadoMudanza[] estados = EstadoMudanza.values();
+		model.addAttribute("asignacion", asignacion);
+		model.addAttribute("estados", estados);
+		return "mudanzavehiculo/mudanzavehiculo-estado";
 	}
 
 	@PostMapping("/estado/{id}")
