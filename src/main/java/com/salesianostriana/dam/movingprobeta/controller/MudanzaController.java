@@ -36,29 +36,32 @@ public class MudanzaController {
 
 	@GetMapping
 	public String list(Model model) {
-		model.addAttribute("mudanzas", mudanzaService.findAll());
+		List<Mudanza> mudanzas = mudanzaService.findAll();
+		model.addAttribute("mudanzas", mudanzas);
 		model.addAttribute("fechaFiltro", null);
 		model.addAttribute("fechaInicioFiltro", null);
 		model.addAttribute("fechaFinFiltro", null);
-		return "mudanza/list";
+		return "mudanza/mudanza-list";
 	}
 
 	@GetMapping("/new")
 	public String newForm(Model model) {
-		model.addAttribute("mudanza", new Mudanza());
-		return "mudanza/form";
+		Mudanza mudanza = new Mudanza();
+		model.addAttribute("mudanza", mudanza);
+		return "mudanza/mudanza-form";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editForm(@PathVariable Long id, Model model) {
-		model.addAttribute("mudanza", mudanzaService.findById(id));
-		return "mudanza/form";
+		Mudanza mudanza = mudanzaService.findById(id);
+		model.addAttribute("mudanza", mudanza);
+		return "mudanza/mudanza-form";
 	}
 
 	@PostMapping("/save")
 	public String save(@Valid @ModelAttribute Mudanza mudanza, BindingResult result) {
 		if (result.hasErrors()) {
-			return "mudanza/form";
+			return "mudanza/mudanza-form";
 		}
 		mudanzaService.save(mudanza);
 		return "redirect:/mudanza";
@@ -76,23 +79,27 @@ public class MudanzaController {
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
 			Model model) {
+		List<Mudanza> mudanzas;
 		if (fecha != null) {
-			model.addAttribute("mudanzas", mudanzaService.findByFecha(fecha));
+			mudanzas = mudanzaService.findByFecha(fecha);
+			model.addAttribute("mudanzas", mudanzas);
 			model.addAttribute("fechaFiltro", fecha);
 			model.addAttribute("fechaInicioFiltro", null);
 			model.addAttribute("fechaFinFiltro", null);
 		} else if (fechaInicio != null && fechaFin != null) {
-			model.addAttribute("mudanzas", mudanzaService.findByFechaEntreRango(fechaInicio, fechaFin));
+			mudanzas = mudanzaService.findByFechaEntreRango(fechaInicio, fechaFin);
+			model.addAttribute("mudanzas", mudanzas);
 			model.addAttribute("fechaFiltro", null);
 			model.addAttribute("fechaInicioFiltro", fechaInicio);
 			model.addAttribute("fechaFinFiltro", fechaFin);
 		} else {
-			model.addAttribute("mudanzas", mudanzaService.findAll());
+			mudanzas = mudanzaService.findAll();
+			model.addAttribute("mudanzas", mudanzas);
 			model.addAttribute("fechaFiltro", null);
 			model.addAttribute("fechaInicioFiltro", null);
 			model.addAttribute("fechaFinFiltro", null);
 		}
-		return "mudanza/list";
+		return "mudanza/mudanza-list";
 	}
 
 	@GetMapping("/pdf")
@@ -120,6 +127,10 @@ public class MudanzaController {
 			document.open();
 
 			Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
+			Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
+			Font whiteFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11, Font.BOLD,
+					com.itextpdf.text.BaseColor.WHITE);
+
 			com.itextpdf.text.Paragraph title = new com.itextpdf.text.Paragraph("MovingPro - Listado de Mudanzas",
 					titleFont);
 			title.setAlignment(Element.ALIGN_CENTER);
@@ -149,13 +160,10 @@ public class MudanzaController {
 				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBackgroundColor(new com.itextpdf.text.BaseColor(27, 58, 107));
 				cell.setPadding(8);
-				com.itextpdf.text.Font whiteFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11, Font.BOLD,
-						com.itextpdf.text.BaseColor.WHITE);
 				cell.setPhrase(new Phrase(header, whiteFont));
 				table.addCell(cell);
 			}
 
-			Font cellFont = FontFactory.getFont(FontFactory.HELVETICA, 10);
 			for (Mudanza mudanza : mudanzas) {
 				table.addCell(new Phrase(String.valueOf(mudanza.getCodigo()), cellFont));
 				table.addCell(new Phrase(mudanza.getOrigen(), cellFont));
