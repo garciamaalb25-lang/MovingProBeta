@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import com.salesianostriana.dam.movingprobeta.Mudanza;
+
 import com.salesianostriana.dam.movingprobeta.exception.MudanzaNotFoundException;
+import com.salesianostriana.dam.movingprobeta.model.Mudanza;
 import com.salesianostriana.dam.movingprobeta.repository.MudanzaRepository;
 import lombok.RequiredArgsConstructor;
 

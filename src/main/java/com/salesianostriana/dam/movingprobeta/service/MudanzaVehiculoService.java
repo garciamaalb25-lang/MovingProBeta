@@ -3,12 +3,13 @@ package com.salesianostriana.dam.movingprobeta.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.salesianostriana.dam.movingprobeta.EstadoMudanza;
-import com.salesianostriana.dam.movingprobeta.Mudanza;
-import com.salesianostriana.dam.movingprobeta.MudanzaVehiculo;
-import com.salesianostriana.dam.movingprobeta.Vehiculo;
+
 import com.salesianostriana.dam.movingprobeta.exception.CapacidadExcedidaException;
 import com.salesianostriana.dam.movingprobeta.exception.VehiculoNoDisponibleException;
+import com.salesianostriana.dam.movingprobeta.model.EstadoMudanza;
+import com.salesianostriana.dam.movingprobeta.model.Mudanza;
+import com.salesianostriana.dam.movingprobeta.model.MudanzaVehiculo;
+import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.repository.MudanzaVehiculoRepository;
 import com.salesianostriana.dam.movingprobeta.repository.MudanzaRepository;
 import com.salesianostriana.dam.movingprobeta.repository.VehiculoRepository;

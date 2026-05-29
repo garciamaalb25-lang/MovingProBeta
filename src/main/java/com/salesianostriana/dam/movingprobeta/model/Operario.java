@@ -1,4 +1,4 @@
-package com.salesianostriana.dam.movingprobeta;
+package com.salesianostriana.dam.movingprobeta.model;
 
 import java.util.ArrayList;
 import java.util.List;

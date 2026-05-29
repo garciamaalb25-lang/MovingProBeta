@@ -21,7 +21,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.salesianostriana.dam.movingprobeta.Mudanza;
+import com.salesianostriana.dam.movingprobeta.model.Mudanza;
 import com.salesianostriana.dam.movingprobeta.service.MudanzaService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;

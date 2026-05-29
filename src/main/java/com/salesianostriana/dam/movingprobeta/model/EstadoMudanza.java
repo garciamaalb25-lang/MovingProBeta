@@ -1,4 +1,4 @@
-package com.salesianostriana.dam.movingprobeta;
+package com.salesianostriana.dam.movingprobeta.model;
 
 public enum EstadoMudanza {
 
