@@ -42,8 +42,23 @@
 			border-left-color: #0F6E56;
 		}
 
+		.stat-card.red {
+			border-left-color: #A32D2D;
+		}
+
+		.stat-card.purple {
+			border-left-color: #6B3A9B;
+		}
+
 		.stat-number {
 			font-size: 2.5rem;
+			font-weight: 900;
+			color: #1B3A6B;
+			margin: 0;
+		}
+
+		.stat-number-sm {
+			font-size: 1.4rem;
 			font-weight: 900;
 			color: #1B3A6B;
 			margin: 0;
@@ -134,6 +149,16 @@
 		.ver-todo:hover {
 			color: #1B3A6B;
 		}
+
+		.section-label {
+			font-size: 11px;
+			letter-spacing: 3px;
+			text-transform: uppercase;
+			color: #BA7517;
+			font-weight: 700;
+			margin-bottom: 16px;
+			margin-top: 8px;
+		}
 	</style>
 </head>
 
@@ -146,6 +171,7 @@
 			<p class="page-title">Panel de control</p>
 			<p class="page-subtitle">Bienvenido a MovingPro — resumen del sistema</p>
 
+			<p class="section-label">— Totales —</p>
 			<div class="row g-3 mb-4">
 				<div class="col-md-4">
 					<div class="stat-card">
@@ -188,6 +214,72 @@
 				</div>
 			</div>
 
+			<p class="section-label">— Estadísticas avanzadas —</p>
+			<div class="row g-3 mb-4">
+				<div class="col-md-3">
+					<div class="stat-card red">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Coste total mudanzas</p>
+								<p class="stat-number-sm" th:text="${costeTotal} + ' €'">0 €</p>
+							</div>
+							<div class="stat-icon" style="background: #FCEBEB;">
+								<i class="bi bi-currency-euro" style="color: #A32D2D;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="stat-card amber">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Mudanza más cara</p>
+								<p class="stat-number-sm" th:if="${mudanzaMasCara != null}"
+									th:text="${mudanzaMasCara.coste} + ' €'">0 €</p>
+								<p class="stat-number-sm" th:unless="${mudanzaMasCara != null}">Sin datos</p>
+								<p style="color: #BA7517; font-size: 11px; margin: 0;" th:if="${mudanzaMasCara != null}"
+									th:text="${mudanzaMasCara.origen} + ' → ' + ${mudanzaMasCara.destino}"></p>
+							</div>
+							<div class="stat-icon" style="background: #FAEEDA;">
+								<i class="bi bi-graph-up-arrow" style="color: #BA7517;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="stat-card purple">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Vehículos disponibles</p>
+								<p class="stat-number-sm" th:text="${porcentajeDisponibles} + ' %'">0%</p>
+							</div>
+							<div class="stat-icon" style="background: #F0E8FF;">
+								<i class="bi bi-truck-front" style="color: #6B3A9B;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="stat-card green">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Operario más experto</p>
+								<p class="stat-number-sm" th:if="${operarioMasExperimentado != null}"
+									th:text="${operarioMasExperimentado.experiencia} + ' años'">0</p>
+								<p class="stat-number-sm" th:unless="${operarioMasExperimentado != null}">Sin datos</p>
+								<p style="color: #0F6E56; font-size: 11px; margin: 0;"
+									th:if="${operarioMasExperimentado != null}"
+									th:text="${operarioMasExperimentado.nombre}"></p>
+							</div>
+							<div class="stat-icon" style="background: #E1F5EE;">
+								<i class="bi bi-person-check" style="color: #0F6E56;"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p class="section-label">— Últimos registros —</p>
 			<div class="row g-3 mb-3">
 				<div class="col-md-6">
 					<div class="quick-table">
