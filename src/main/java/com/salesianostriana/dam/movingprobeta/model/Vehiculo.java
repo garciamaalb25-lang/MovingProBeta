@@ -12,26 +12,29 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Entidad que representa un vehículo, con sus atributos y validaciones
 @Entity
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Vehiculo {
 
-    @Id @GeneratedValue
-    private Long idVehiculo;
+	@Id
+	@GeneratedValue
+	private Long idVehiculo;
 
-    @NotBlank(message = "La matrícula no puede estar vacía")
-    @Pattern(regexp = "^[0-9]{4}[A-Z]{3}$", message = "La matrícula debe tener 4 números y 3 letras mayúsculas (ej: 1234ABC)")
-    private String matricula;
+	@NotBlank(message = "La matrícula no puede estar vacía")
+	@Pattern(regexp = "^[0-9]{4}[A-Z]{3}$", message = "La matrícula debe tener 4 números y 3 letras mayúsculas (ej: 1234ABC)")
+	private String matricula;
 
-    @Min(value = 100, message = "La capacidad mínima es 100 kg")
-    @Max(value = 30000, message = "La capacidad máxima es 30000 kg")
-    private double capacidad;
+	@Min(value = 100, message = "La capacidad mínima es 100 kg")
+	@Max(value = 30000, message = "La capacidad máxima es 30000 kg")
+	private double capacidad;
 
-    private boolean disponible;
+	private boolean disponible;
 
-    @Min(value = 10, message = "El coste mínimo por hora es 10 €")
-    @Max(value = 500, message = "El coste máximo por hora es 500 €")
-    private double costePorHora;
+	@Min(value = 10, message = "El coste mínimo por hora es 10 €")
+	@Max(value = 500, message = "El coste máximo por hora es 500 €")
+	private double costePorHora;
 }

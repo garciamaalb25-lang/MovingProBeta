@@ -7,11 +7,12 @@ import org.springframework.data.repository.query.Param;
 
 import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 
+// Repositorio para la entidad Vehiculo, con consultas personalizadas para buscar vehículos no disponibles y por capacidad mínima
 public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
 
-    @Query("SELECT v FROM Vehiculo v WHERE v.disponible = false")
-    List<Vehiculo> findVehiculosNoDisponibles();
+	@Query("SELECT v FROM Vehiculo v WHERE v.disponible = false")
+	List<Vehiculo> findVehiculosNoDisponibles();
 
-    @Query("SELECT v FROM Vehiculo v WHERE v.capacidad >= :capacidadMinima")
-    List<Vehiculo> findByCapacidadMinima(@Param("capacidadMinima") double capacidadMinima);
+	@Query("SELECT v FROM Vehiculo v WHERE v.capacidad >= :capacidadMinima")
+	List<Vehiculo> findByCapacidadMinima(@Param("capacidadMinima") double capacidadMinima);
 }

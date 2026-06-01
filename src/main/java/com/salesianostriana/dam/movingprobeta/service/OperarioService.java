@@ -8,6 +8,7 @@ import com.salesianostriana.dam.movingprobeta.model.Operario;
 import com.salesianostriana.dam.movingprobeta.repository.OperarioRepository;
 import lombok.RequiredArgsConstructor;
 
+// Servicio para la entidad Operario, con métodos para realizar operaciones CRUD y consultas personalizadas por experiencia y actividad
 @Service
 @RequiredArgsConstructor
 public class OperarioService {
@@ -30,14 +31,17 @@ public class OperarioService {
 		operarioRepository.deleteById(id);
 	}
 
+// Buscar operarios con experiencia igual o superior a un número de años, ordenados de mayor a menor experiencia
 	public List<Operario> findOperariosExperimentados(int anios) {
 		return operarioRepository.findOperariosExperimentados(anios);
 	}
 
+// Buscar operarios que han participado en al menos una mudanza, indicando que están activos
 	public List<Operario> findOperariosActivos() {
 		return operarioRepository.findOperariosActivos();
 	}
 
+//	Buscar operarios con experiencia igual o superior a un número de años, ordenados de mayor a menor experiencia, utilizando Java Streams para filtrar y ordenar la lista completa de operarios
 	public List<Operario> findByExperienciaMinima(int anios) {
 		List<Operario> todosOperarios = operarioRepository.findAll();
 		return todosOperarios.stream().filter(o -> o.getExperiencia() >= anios)

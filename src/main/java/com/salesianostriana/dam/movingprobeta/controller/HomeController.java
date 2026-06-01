@@ -21,13 +21,15 @@ public class HomeController {
 	private final MudanzaService mudanzaService;
 	private final VehiculoService vehiculoService;
 	private final OperarioService operarioService;
+	// Controlador para la página de inicio que muestra estadísticas y resúmenes de
+	// mudanzas, vehículos y operarios
 
 	@GetMapping("/")
 	public String index(Model model) {
 		List<Mudanza> todasMudanzas = mudanzaService.findAll();
 		List<Vehiculo> todosVehiculos = vehiculoService.findAll();
 		List<Operario> todosOperarios = operarioService.findAll();
-
+// Estadísticas y resúmenes para mostrar en la página de inicio
 		long vehiculosDisponiblesCount = todosVehiculos.stream().filter(Vehiculo::isDisponible).count();
 		int porcentajeDisponibles = todosVehiculos.isEmpty() ? 0
 				: (int) (vehiculosDisponiblesCount * 100 / todosVehiculos.size());
@@ -36,7 +38,7 @@ public class HomeController {
 		Vehiculo vehiculoMasUsado = todosVehiculos.stream().filter(v -> !v.isDisponible()).findFirst().orElse(null);
 		Operario operarioMasExperimentado = todosOperarios.stream()
 				.max(Comparator.comparingInt(Operario::getExperiencia)).orElse(null);
-
+// Agregar atributos al modelo para mostrar en la vista
 		model.addAttribute("totalMudanzas", todasMudanzas.size());
 		model.addAttribute("totalVehiculos", todosVehiculos.size());
 		model.addAttribute("totalOperarios", todosOperarios.size());

@@ -15,23 +15,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// Entidad que representa un operario, con sus atributos y relación con mudanzas
 @Entity
 @Data
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Operario {
 
-    @Id @GeneratedValue
-    private Long idOperario;
+	@Id
+	@GeneratedValue
+	private Long idOperario;
 
-    @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
-    private String nombre;
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
+	private String nombre;
 
-    @Min(value = 0, message = "La experiencia no puede ser negativa")
-    @Max(value = 50, message = "La experiencia máxima es 50 años")
-    private int experiencia;
+	@Min(value = 0, message = "La experiencia no puede ser negativa")
+	@Max(value = 50, message = "La experiencia máxima es 50 años")
+	private int experiencia;
 
-    @ManyToMany(mappedBy = "operarios")
-    private List<Mudanza> mudanzas = new ArrayList<>();
+	@ManyToMany(mappedBy = "operarios")
+	private List<Mudanza> mudanzas = new ArrayList<>();
 }

@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+// Entidad que representa una mudanza, con sus atributos y relaciones con operarios y vehículos
 @Entity
 @Data
 @AllArgsConstructor
@@ -31,7 +32,6 @@ public class Mudanza {
 	@Id
 	@GeneratedValue
 	private Long idMudanza;
-
 	@Min(value = 1, message = "El código debe ser mayor que 0")
 	@Max(value = 99999, message = "El código no puede superar 99999")
 	private int codigo;

@@ -14,7 +14,7 @@ import com.salesianostriana.dam.movingprobeta.repository.MudanzaVehiculoReposito
 import com.salesianostriana.dam.movingprobeta.repository.MudanzaRepository;
 import com.salesianostriana.dam.movingprobeta.repository.VehiculoRepository;
 import lombok.RequiredArgsConstructor;
-
+// Servicio para la entidad MudanzaVehiculo, con métodos para realizar operaciones CRUD, asignar vehículos a mudanzas y cambiar el estado de las mudanzas, incluyendo validaciones de disponibilidad y capacidad
 @Service
 @RequiredArgsConstructor
 public class MudanzaVehiculoService {
@@ -35,7 +35,7 @@ public class MudanzaVehiculoService {
 	public MudanzaVehiculo save(MudanzaVehiculo mudanzaVehiculo) {
 		return mudanzaVehiculoRepository.save(mudanzaVehiculo);
 	}
-
+// Eliminar asignación de vehículo a mudanza, liberando el vehículo para futuras asignaciones
 	@Transactional
 	public void deleteById(Long id) {
 		MudanzaVehiculo mv = findById(id);
@@ -44,7 +44,7 @@ public class MudanzaVehiculoService {
 		vehiculoRepository.save(vehiculo);
 		mudanzaVehiculoRepository.deleteById(id);
 	}
-
+// Asignar un vehículo a una mudanza, calculando el coste basado en el peso de la mudanza y validando la disponibilidad del vehículo y su capacidad
 	@Transactional
 	public MudanzaVehiculo asignarVehiculo(Long mudanzaId, Long vehiculoId, double pesoMudanza, String observaciones) {
 		Mudanza mudanza = mudanzaRepository.findById(mudanzaId)
@@ -71,7 +71,7 @@ public class MudanzaVehiculoService {
 
 		return mudanzaVehiculoRepository.save(mv);
 	}
-
+// Cambiar el estado de una asignación de vehículo a mudanza, liberando el vehículo si la mudanza se ha terminado
 	@Transactional
 	public MudanzaVehiculo cambiarEstado(Long id, EstadoMudanza nuevoEstado) {
 		MudanzaVehiculo mv = findById(id);
