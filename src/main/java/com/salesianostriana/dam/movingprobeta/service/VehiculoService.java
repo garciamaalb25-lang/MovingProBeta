@@ -34,20 +34,25 @@ public class VehiculoService {
 		vehiculoRepository.deleteById(id);
 	}
 
+// Buscar vehículos que están disponibles, indicando que no están asignados a ninguna mudanza
 	public List<Vehiculo> findVehiculosDisponibles() {
 		List<Vehiculo> todosVehiculos = vehiculoRepository.findAll();
 		return todosVehiculos.stream().filter(Vehiculo::isDisponible).collect(Collectors.toList());
 	}
 
+// Buscar vehículos que no están disponibles, indicando que están asignados a una mudanza
 	public List<Vehiculo> findVehiculosNoDisponibles() {
 		return vehiculoRepository.findVehiculosNoDisponibles();
 	}
 
+// Buscar vehículos con capacidad igual o superior a un valor mínimo, utilizando Java Streams para filtrar la lista completa de vehículos
 	public List<Vehiculo> findByCapacidadMinima(double capacidadMinima) {
 		List<Vehiculo> todosVehiculos = vehiculoRepository.findAll();
 		return todosVehiculos.stream().filter(v -> v.getCapacidad() >= capacidadMinima).collect(Collectors.toList());
 	}
-	
+
+	// Asignar un vehículo a una mudanza, calculando el coste basado en el peso de
+	// la mudanza y validando la disponibilidad del vehículo y su capacidad
 	public Vehiculo asignarVehiculo(Long idVehiculo, double pesoMudanza) {
 		Vehiculo vehiculo = vehiculoRepository.findById(idVehiculo)
 				.orElseThrow(() -> new VehiculoNotFoundException(idVehiculo));

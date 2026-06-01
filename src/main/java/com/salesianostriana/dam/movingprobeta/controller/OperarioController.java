@@ -20,6 +20,7 @@ public class OperarioController {
 
 	private final OperarioService operarioService;
 
+// Controlador para manejar las operaciones CRUD de operarios, búsqueda por experiencia y listado de operarios en la página de inicio
 	@GetMapping
 	public String list(Model model) {
 		List<Operario> operarios = operarioService.findAll();
@@ -27,6 +28,7 @@ public class OperarioController {
 		return "operario/operario-list";
 	}
 
+// Mostrar formulario para crear nuevo operario
 	@GetMapping("/new")
 	public String newForm(Model model) {
 		Operario operario = new Operario();
@@ -34,6 +36,7 @@ public class OperarioController {
 		return "operario/operario-form";
 	}
 
+// Mostrar formulario para editar operario existente
 	@GetMapping("/edit/{id}")
 	public String editForm(@PathVariable Long id, Model model) {
 		Operario operario = operarioService.findById(id);
@@ -41,18 +44,21 @@ public class OperarioController {
 		return "operario/operario-form";
 	}
 
+// Guardar nuevo operario o actualizar existente
 	@PostMapping("/save")
 	public String save(@ModelAttribute Operario operario) {
 		operarioService.save(operario);
 		return "redirect:/operario";
 	}
 
+// Eliminar operario por id
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id) {
 		operarioService.deleteById(id);
 		return "redirect:/operario";
 	}
 
+// Buscar operarios por experiencia mínima y mostrar resultados en la vista
 	@GetMapping("/buscar")
 	public String buscarOperarios(@RequestParam(required = false) Integer experienciaMinima, Model model) {
 		List<Operario> operarios;

@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+// Entidad que representa la relación entre una mudanza y un vehículo, con su estado y observaciones
 @Entity
 @Data
 @NoArgsConstructor @AllArgsConstructor
@@ -31,7 +31,7 @@ public class MudanzaVehiculo {
     private Vehiculo vehiculo;
 
     @Enumerated(EnumType.STRING)
-    private EstadoMudanza estado;
+	private EstadoMudanza estado;
 
     private String observaciones;
     private LocalDateTime fechaAsignacion;

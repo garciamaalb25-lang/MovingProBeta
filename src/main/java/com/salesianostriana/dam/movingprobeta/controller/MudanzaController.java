@@ -34,6 +34,7 @@ public class MudanzaController {
 
 	private final MudanzaService mudanzaService;
 
+// Controlador para manejar las operaciones CRUD de mudanzas, búsqueda por fecha y exportación a PDF
 	@GetMapping
 	public String list(Model model) {
 		List<Mudanza> mudanzas = mudanzaService.findAll();
@@ -44,6 +45,7 @@ public class MudanzaController {
 		return "mudanza/mudanza-list";
 	}
 
+// Mostrar formulario para crear nueva mudanza
 	@GetMapping("/new")
 	public String newForm(Model model) {
 		Mudanza mudanza = new Mudanza();
@@ -51,6 +53,7 @@ public class MudanzaController {
 		return "mudanza/mudanza-form";
 	}
 
+// Mostrar formulario para editar mudanza existente
 	@GetMapping("/edit/{id}")
 	public String editForm(@PathVariable Long id, Model model) {
 		Mudanza mudanza = mudanzaService.findById(id);
@@ -58,6 +61,7 @@ public class MudanzaController {
 		return "mudanza/mudanza-form";
 	}
 
+// Guardar nueva mudanza o actualizar existente
 	@PostMapping("/save")
 	public String save(@Valid @ModelAttribute Mudanza mudanza, BindingResult result) {
 		if (result.hasErrors()) {
@@ -67,12 +71,14 @@ public class MudanzaController {
 		return "redirect:/mudanza";
 	}
 
+// Eliminar mudanza por id
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id) {
 		mudanzaService.deleteById(id);
 		return "redirect:/mudanza";
 	}
 
+// Buscar mudanzas por fecha o rango de fechas
 	@GetMapping("/buscar")
 	public String buscarPorFecha(
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
@@ -102,6 +108,7 @@ public class MudanzaController {
 		return "mudanza/mudanza-list";
 	}
 
+// Exportar listado de mudanzas a PDF con filtros opcionales por fecha
 	@GetMapping("/pdf")
 	public void exportarPdf(HttpServletResponse response,
 			@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha,
@@ -111,7 +118,7 @@ public class MudanzaController {
 
 		response.setContentType("application/pdf");
 		response.setHeader("Content-Disposition", "attachment; filename=mudanzas.pdf");
-
+// Obtener mudanzas según filtros de fecha
 		List<Mudanza> mudanzas;
 		if (fecha != null) {
 			mudanzas = mudanzaService.findByFecha(fecha);
@@ -120,7 +127,7 @@ public class MudanzaController {
 		} else {
 			mudanzas = mudanzaService.findAll();
 		}
-
+// Generar PDF usando iText
 		try {
 			Document document = new Document();
 			PdfWriter.getInstance(document, response.getOutputStream());
@@ -153,7 +160,7 @@ public class MudanzaController {
 
 			PdfPTable table = new PdfPTable(6);
 			table.setWidthPercentage(100);
-
+// Agregar encabezados de columna con estilo
 			String[] headers = { "Código", "Origen", "Destino", "Coste", "Horas", "Fecha" };
 			for (String header : headers) {
 				PdfPCell cell = new PdfPCell();

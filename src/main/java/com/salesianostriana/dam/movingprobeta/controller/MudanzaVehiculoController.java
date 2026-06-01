@@ -27,6 +27,7 @@ public class MudanzaVehiculoController {
 	private final MudanzaService mudanzaService;
 	private final VehiculoService vehiculoService;
 
+// Controlador para manejar la asignación de vehículos a mudanzas, cambio de estado y eliminación de asignaciones
 	@GetMapping
 	public String list(Model model) {
 		List<MudanzaVehiculo> asignaciones = mudanzaVehiculoService.findAll();
@@ -34,6 +35,7 @@ public class MudanzaVehiculoController {
 		return "mudanzavehiculo/mudanzavehiculo-list";
 	}
 
+// Mostrar formulario para crear nueva asignación de vehículo a mudanza
 	@GetMapping("/new")
 	public String newForm(Model model) {
 		List<Mudanza> mudanzas = mudanzaService.findAll();
@@ -43,6 +45,7 @@ public class MudanzaVehiculoController {
 		return "mudanzavehiculo/mudanzavehiculo-form";
 	}
 
+// Guardar nueva asignación de vehículo a mudanza con cálculo de coste basado en peso
 	@PostMapping("/save")
 	public String save(@RequestParam Long mudanzaId, @RequestParam Long vehiculoId, @RequestParam double pesoMudanza,
 			@RequestParam(required = false) String observaciones, RedirectAttributes redirectAttributes) {
@@ -53,6 +56,7 @@ public class MudanzaVehiculoController {
 		return "redirect:/mudanzavehiculo";
 	}
 
+// Mostrar formulario para cambiar estado de una asignación de vehículo a mudanza
 	@GetMapping("/estado/{id}")
 	public String cambiarEstadoForm(@PathVariable Long id, Model model) {
 		MudanzaVehiculo asignacion = mudanzaVehiculoService.findById(id);
@@ -62,12 +66,14 @@ public class MudanzaVehiculoController {
 		return "mudanzavehiculo/mudanzavehiculo-estado";
 	}
 
+// Cambiar estado de una asignación de vehículo a mudanza
 	@PostMapping("/estado/{id}")
 	public String cambiarEstado(@PathVariable Long id, @RequestParam EstadoMudanza estado) {
 		mudanzaVehiculoService.cambiarEstado(id, estado);
 		return "redirect:/mudanzavehiculo";
 	}
 
+//	Eliminar asignación de vehículo a mudanza por id
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Long id) {
 		mudanzaVehiculoService.deleteById(id);
