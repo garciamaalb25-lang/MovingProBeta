@@ -2,83 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
-	<div id="mainSidebar" th:fragment="sidebar"
-		style="width: 250px; min-height: 100vh; background: #1B3A6B; position: fixed; top: 0; left: 0; z-index: 100; flex-direction: column;">
+	<div id="mainSidebar" th:fragment="sidebar" class="main-sidebar d-none d-md-flex">
 
-		<div style="padding: 24px 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-			<div style="display: flex; align-items: center; gap: 10px;">
-				<i class="bi bi-truck" style="color: #FAC775; font-size: 24px;"></i>
-				<span style="color: #E6F1FB; font-weight: 700; font-size: 18px;">MovingPro</span>
+		<div class="sidebar-header">
+			<div class="d-flex align-items-center gap-2">
+				<i class="bi bi-truck sidebar-brand-icon"></i>
+				<span class="sidebar-brand-text">MovingPro</span>
 			</div>
-			<p
-				style="color: #B5D4F4; font-size: 11px; margin: 4px 0 0; letter-spacing: 2px; text-transform: uppercase;">
-				Gestión de mudanzas</p>
+			<p class="sidebar-brand-subtitle">Gestión de mudanzas</p>
 		</div>
 
-		<nav style="padding: 20px 0; flex: 1;">
-			<p
-				style="color: #B5D4F4; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 0 20px; margin-bottom: 8px;">
-				Principal</p>
+		<nav class="sidebar-nav">
+			<p class="sidebar-label">Principal</p>
 
-			<a th:href="@{/}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-speedometer2" style="font-size: 18px; color: #FAC775;"></i>
-				<span style="font-size: 14px;">Dashboard</span>
+			<a th:href="@{/}" class="sidebar-link">
+				<i class="bi bi-speedometer2 sidebar-link-icon highlight"></i>
+				<span>Dashboard</span>
 			</a>
 
-			<p
-				style="color: #B5D4F4; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 16px 20px 8px; margin: 0;">
-				Gestión</p>
+			<p class="sidebar-label-sec">Gestión</p>
 
-			<a th:href="@{/mudanza}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-box-seam" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Mudanzas</span>
+			<a th:href="@{/mudanza}" class="sidebar-link">
+				<i class="bi bi-box-seam sidebar-link-icon"></i>
+				<span>Mudanzas</span>
 			</a>
 
-			<a th:href="@{/vehiculo}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-truck" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Vehículos</span>
+			<a th:href="@{/vehiculo}" class="sidebar-link">
+				<i class="bi bi-truck sidebar-link-icon"></i>
+				<span>Vehículos</span>
 			</a>
 
-			<a th:href="@{/operario}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-people" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Operarios</span>
+			<a th:href="@{/operario}" class="sidebar-link">
+				<i class="bi bi-people sidebar-link-icon"></i>
+				<span>Operarios</span>
 			</a>
 
-			<a th:href="@{/mudanzavehiculo}"
-				style="display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #E6F1FB; text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;"
-				onmouseover="this.style.background='rgba(255,255,255,0.1)'; this.style.borderLeftColor='#FAC775';"
-				onmouseout="this.style.background='transparent'; this.style.borderLeftColor='transparent';">
-				<i class="bi bi-link-45deg" style="font-size: 18px;"></i>
-				<span style="font-size: 14px;">Asignaciones</span>
+			<a th:href="@{/mudanzavehiculo}" class="sidebar-link">
+				<i class="bi bi-link-45deg sidebar-link-icon"></i>
+				<span>Asignaciones</span>
 			</a>
 		</nav>
 
-		<div style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-			<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-				<div
-					style="width: 36px; height: 36px; border-radius: 50%; background: #BA7517; display: flex; align-items: center; justify-content: center;">
-					<i class="bi bi-person" style="color: #FAEEDA; font-size: 18px;"></i>
+		<div class="sidebar-footer">
+			<div class="d-flex align-items-center gap-2 mb-2">
+				<div class="sidebar-avatar">
+					<i class="bi bi-person sidebar-avatar-icon"></i>
 				</div>
 				<div>
-					<p style="color: #E6F1FB; font-size: 13px; font-weight: 600; margin: 0;" sec:authentication="name">
-					</p>
+					<p class="sidebar-username" sec:authentication="name"></p>
 				</div>
 			</div>
 			<form th:action="@{/logout}" method="post">
-				<button type="submit"
-					style="width: 100%; background: rgba(229,57,53,0.2); border: 1px solid rgba(229,57,53,0.4); color: #F09595; font-size: 13px; padding: 8px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+				<button type="submit" class="btn-logout">
 					<i class="bi bi-box-arrow-left"></i> Cerrar sesión
 				</button>
 			</form>

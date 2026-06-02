@@ -1,0 +1,20 @@
+@media (max-width: 768px) {
+	#topNavbar {
+		left: 0 !important;
+	}
+
+	.main-content {
+		margin-left: 0 !important;
+		padding-top: 70px !important;
+		padding-bottom: 80px !important;
+	}
+
+	table {
+		font-size: 11px !important;
+	}
+
+	table thead th,
+	table tbody td {
+		padding: 8px !important;
+	}
+}
