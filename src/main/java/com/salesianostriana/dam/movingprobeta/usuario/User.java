@@ -20,19 +20,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="usuarios")
+@Table(name = "usuarios")
 public class User implements UserDetails {
 
-    @Id @GeneratedValue
-    private Long id;
-    private String username;
-    private String password;
-    private String email;
-    private String fullname;
-    private UserRole role;
+	@Id
+	@GeneratedValue
+	private Long id;
+	private String username;
+	private String password;
+	private String email;
+	private String fullname;
+	private UserRole role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
-    }
+//
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+	}
 }

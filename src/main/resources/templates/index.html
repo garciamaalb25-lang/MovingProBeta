@@ -6,135 +6,9 @@
 	<title>MovingPro - Dashboard</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 	<link rel="stylesheet" th:href="@{/css/responsive.css}">
-	<style>
-		body {
-			background: #F4F7FB;
-			font-family: 'Segoe UI', sans-serif;
-			margin: 0;
-		}
-
-		.main-content {
-			margin-left: 250px;
-			padding-top: 60px;
-			min-height: 100vh;
-		}
-
-		.stat-card {
-			background: #ffffff;
-			border-radius: 12px;
-			padding: 24px;
-			border: 0.5px solid #B5D4F4;
-			border-left: 4px solid #1B3A6B;
-			transition: all 0.3s ease;
-		}
-
-		.stat-card:hover {
-			transform: translateY(-4px);
-			box-shadow: 0 8px 24px rgba(27, 58, 107, 0.1);
-		}
-
-		.stat-card.amber {
-			border-left-color: #BA7517;
-		}
-
-		.stat-card.green {
-			border-left-color: #0F6E56;
-		}
-
-		.stat-number {
-			font-size: 2.5rem;
-			font-weight: 900;
-			color: #1B3A6B;
-			margin: 0;
-		}
-
-		.stat-label {
-			color: #378ADD;
-			font-size: 12px;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			margin: 0;
-		}
-
-		.stat-icon {
-			width: 48px;
-			height: 48px;
-			border-radius: 12px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			font-size: 22px;
-		}
-
-		.quick-table {
-			background: #ffffff;
-			border-radius: 12px;
-			border: 0.5px solid #B5D4F4;
-			overflow: hidden;
-		}
-
-		.quick-table-header {
-			padding: 16px 20px;
-			border-bottom: 0.5px solid #B5D4F4;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-		}
-
-		.quick-table-header h6 {
-			color: #1B3A6B;
-			font-weight: 700;
-			margin: 0;
-			font-size: 14px;
-		}
-
-		.quick-table table thead th {
-			background: #F4F7FB;
-			color: #1B3A6B;
-			font-size: 12px;
-			font-weight: 600;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			border: none;
-			padding: 12px 16px;
-		}
-
-		.quick-table table tbody td {
-			padding: 12px 16px;
-			font-size: 14px;
-			color: #333;
-			border-bottom: 0.5px solid #F4F7FB;
-		}
-
-		.quick-table table tbody tr:hover {
-			background: #F4F7FB;
-		}
-
-		.page-title {
-			font-size: 22px;
-			font-weight: 700;
-			color: #1B3A6B;
-			margin-bottom: 4px;
-		}
-
-		.page-subtitle {
-			color: #378ADD;
-			font-size: 13px;
-			margin-bottom: 24px;
-		}
-
-		.ver-todo {
-			font-size: 12px;
-			color: #BA7517;
-			text-decoration: none;
-			font-weight: 600;
-		}
-
-		.ver-todo:hover {
-			color: #1B3A6B;
-		}
-	</style>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -142,10 +16,11 @@
 	<div th:replace="~{fragments/navbar :: navbar}"></div>
 
 	<div class="main-content">
-		<div class="content-area" style="padding: 30px;">
+		<div class="content-area">
 			<p class="page-title">Panel de control</p>
 			<p class="page-subtitle">Bienvenido a MovingPro — resumen del sistema</p>
 
+			<p class="section-label">— Totales —</p>
 			<div class="row g-3 mb-4">
 				<div class="col-md-4">
 					<div class="stat-card">
@@ -154,8 +29,8 @@
 								<p class="stat-label">Mudanzas registradas</p>
 								<p class="stat-number" th:text="${totalMudanzas}">0</p>
 							</div>
-							<div class="stat-icon" style="background: #E6F1FB;">
-								<i class="bi bi-box-seam" style="color: #1B3A6B;"></i>
+							<div class="stat-icon stat-icon-bg-blue">
+								<i class="bi bi-box-seam stat-icon-blue"></i>
 							</div>
 						</div>
 					</div>
@@ -167,8 +42,8 @@
 								<p class="stat-label">Vehículos en flota</p>
 								<p class="stat-number" th:text="${totalVehiculos}">0</p>
 							</div>
-							<div class="stat-icon" style="background: #FAEEDA;">
-								<i class="bi bi-truck" style="color: #BA7517;"></i>
+							<div class="stat-icon stat-icon-bg-amber">
+								<i class="bi bi-truck stat-icon-amber"></i>
 							</div>
 						</div>
 					</div>
@@ -180,19 +55,85 @@
 								<p class="stat-label">Operarios activos</p>
 								<p class="stat-number" th:text="${totalOperarios}">0</p>
 							</div>
-							<div class="stat-icon" style="background: #E1F5EE;">
-								<i class="bi bi-people" style="color: #0F6E56;"></i>
+							<div class="stat-icon stat-icon-bg-green">
+								<i class="bi bi-people stat-icon-green"></i>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
+			<p class="section-label">— Estadísticas avanzadas —</p>
+			<div class="row g-3 mb-4">
+				<div class="col-md-3">
+					<div class="stat-card red">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Coste total mudanzas</p>
+								<p class="stat-number-sm" th:text="${costeTotal} + ' €'">0 €</p>
+							</div>
+							<div class="stat-icon stat-icon-bg-red">
+								<i class="bi bi-currency-euro stat-icon-red"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="stat-card amber">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Mudanza más cara</p>
+								<p class="stat-number-sm" th:if="${mudanzaMasCara != null}"
+									th:text="${mudanzaMasCara.coste} + ' €'">0 €</p>
+								<p class="stat-number-sm" th:unless="${mudanzaMasCara != null}">Sin datos</p>
+								<p class="stat-detail amber" th:if="${mudanzaMasCara != null}"
+									th:text="${mudanzaMasCara.origen} + ' → ' + ${mudanzaMasCara.destino}"></p>
+							</div>
+							<div class="stat-icon stat-icon-bg-amber">
+								<i class="bi bi-graph-up-arrow stat-icon-amber"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="stat-card purple">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Vehículos disponibles</p>
+								<p class="stat-number-sm" th:text="${porcentajeDisponibles} + ' %'">0%</p>
+							</div>
+							<div class="stat-icon stat-icon-bg-purple">
+								<i class="bi bi-truck-front stat-icon-purple"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="stat-card green">
+						<div class="d-flex align-items-center justify-content-between">
+							<div>
+								<p class="stat-label">Operario más experto</p>
+								<p class="stat-number-sm" th:if="${operarioMasExperimentado != null}"
+									th:text="${operarioMasExperimentado.experiencia} + ' años'">0</p>
+								<p class="stat-number-sm" th:unless="${operarioMasExperimentado != null}">Sin datos</p>
+								<p class="stat-detail green"
+									th:if="${operarioMasExperimentado != null}"
+									th:text="${operarioMasExperimentado.nombre}"></p>
+							</div>
+							<div class="stat-icon stat-icon-bg-green">
+								<i class="bi bi-person-check stat-icon-green"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<p class="section-label">— Últimos registros —</p>
 			<div class="row g-3 mb-3">
 				<div class="col-md-6">
 					<div class="quick-table">
 						<div class="quick-table-header">
-							<h6><i class="bi bi-box-seam me-2" style="color: #1B3A6B;"></i>Últimas mudanzas</h6>
+							<h6><i class="bi bi-box-seam me-2 stat-icon-blue"></i>Últimas mudanzas</h6>
 							<a th:href="@{/mudanza}" class="ver-todo">Ver todas →</a>
 						</div>
 						<table class="table mb-0">
@@ -210,7 +151,7 @@
 									<td th:text="${#temporals.format(mudanza.fecha, 'dd/MM/yyyy')}"></td>
 								</tr>
 								<tr th:if="${#lists.isEmpty(ultimasMudanzas)}">
-									<td colspan="3" style="text-align: center; color: #B5D4F4;">No hay mudanzas
+									<td colspan="3" class="table-empty-msg">No hay mudanzas
 										registradas</td>
 								</tr>
 							</tbody>
@@ -220,7 +161,7 @@
 				<div class="col-md-6">
 					<div class="quick-table">
 						<div class="quick-table-header">
-							<h6><i class="bi bi-truck me-2" style="color: #BA7517;"></i>Vehículos disponibles</h6>
+							<h6><i class="bi bi-truck me-2 stat-icon-amber"></i>Vehículos disponibles</h6>
 							<a th:href="@{/vehiculo}" class="ver-todo">Ver todos →</a>
 						</div>
 						<table class="table mb-0">
@@ -235,12 +176,10 @@
 								<tr th:each="vehiculo : ${vehiculosDisponibles}">
 									<td th:text="${vehiculo.matricula}"></td>
 									<td th:text="${vehiculo.capacidad} + ' kg'"></td>
-									<td><span
-											style="background: #E1F5EE; color: #085041; font-size: 11px; padding: 2px 8px; border-radius: 20px;">Disponible</span>
-									</td>
+									<td><span class="badge-custom available">Disponible</span></td>
 								</tr>
 								<tr th:if="${#lists.isEmpty(vehiculosDisponibles)}">
-									<td colspan="3" style="text-align: center; color: #B5D4F4;">No hay vehículos
+									<td colspan="3" class="table-empty-msg">No hay vehículos
 										disponibles</td>
 								</tr>
 							</tbody>
@@ -253,7 +192,7 @@
 				<div class="col-md-12">
 					<div class="quick-table">
 						<div class="quick-table-header">
-							<h6><i class="bi bi-people me-2" style="color: #0F6E56;"></i>Operarios registrados</h6>
+							<h6><i class="bi bi-people me-2 stat-icon-green"></i>Operarios registrados</h6>
 							<a th:href="@{/operario}" class="ver-todo">Ver todos →</a>
 						</div>
 						<table class="table mb-0">
@@ -269,7 +208,7 @@
 									<td th:text="${operario.experiencia}"></td>
 								</tr>
 								<tr th:if="${#lists.isEmpty(ultimosOperarios)}">
-									<td colspan="2" style="text-align: center; color: #B5D4F4;">No hay operarios
+									<td colspan="2" class="table-empty-msg">No hay operarios
 										registrados</td>
 								</tr>
 							</tbody>
@@ -281,7 +220,6 @@
 	</div>
 
 	<div th:replace="~{fragments/navbar :: mobilenav}"></div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

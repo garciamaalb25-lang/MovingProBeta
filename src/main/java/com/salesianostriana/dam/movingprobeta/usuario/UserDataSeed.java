@@ -9,30 +9,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserDataSeed {
 
-    private final UserRepository repo;
-    private final PasswordEncoder encoder;
+	private final UserRepository repo;
+	private final PasswordEncoder encoder;
 
-    @PostConstruct
-    public void init() {
+// Método que se ejecuta después de la construcción del bean para inicializar los datos de usuarios en la base de datos, creando un usuario administrador y un usuario operador con contraseñas codificadas
+	@PostConstruct
+	public void init() {
+		User admin = User.builder().email("admin@movingpro.com").username("admin").fullname("Administrador")
+				.password(encoder.encode("admin")).role(UserRole.ADMIN).build();
+		repo.save(admin);
 
-        User admin = User.builder()
-                .email("admin@movingpro.com")
-                .username("admin")
-                .fullname("Administrador")
-                .password(encoder.encode("admin"))
-                .role(UserRole.ADMIN)
-                .build();
-
-        repo.save(admin);
-
-        User operador = User.builder()
-                .email("operador@movingpro.com")
-                .username("operador")
-                .fullname("Operador")
-                .password(encoder.encode("operador"))
-                .role(UserRole.OPERADOR)
-                .build();
-
-        repo.save(operador);
-    }
+		User user = User.builder().email("user@movingpro.com").username("user").fullname("Usuario")
+				.password(encoder.encode("user")).role(UserRole.OPERADOR).build();
+		repo.save(user);
+	}
 }

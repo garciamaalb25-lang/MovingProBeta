@@ -3,17 +3,18 @@ package com.salesianostriana.dam.movingprobeta.service;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.salesianostriana.dam.movingprobeta.EstadoMudanza;
-import com.salesianostriana.dam.movingprobeta.Mudanza;
-import com.salesianostriana.dam.movingprobeta.MudanzaVehiculo;
-import com.salesianostriana.dam.movingprobeta.Vehiculo;
+import org.springframework.transaction.annotation.Transactional;
 import com.salesianostriana.dam.movingprobeta.exception.CapacidadExcedidaException;
 import com.salesianostriana.dam.movingprobeta.exception.VehiculoNoDisponibleException;
+import com.salesianostriana.dam.movingprobeta.model.EstadoMudanza;
+import com.salesianostriana.dam.movingprobeta.model.Mudanza;
+import com.salesianostriana.dam.movingprobeta.model.MudanzaVehiculo;
+import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.repository.MudanzaVehiculoRepository;
 import com.salesianostriana.dam.movingprobeta.repository.MudanzaRepository;
 import com.salesianostriana.dam.movingprobeta.repository.VehiculoRepository;
 import lombok.RequiredArgsConstructor;
-
+// Servicio para la entidad MudanzaVehiculo, con métodos para realizar operaciones CRUD, asignar vehículos a mudanzas y cambiar el estado de las mudanzas, incluyendo validaciones de disponibilidad y capacidad
 @Service
 @RequiredArgsConstructor
 public class MudanzaVehiculoService {
@@ -34,7 +35,8 @@ public class MudanzaVehiculoService {
 	public MudanzaVehiculo save(MudanzaVehiculo mudanzaVehiculo) {
 		return mudanzaVehiculoRepository.save(mudanzaVehiculo);
 	}
-
+// Eliminar asignación de vehículo a mudanza, liberando el vehículo para futuras asignaciones
+	@Transactional
 	public void deleteById(Long id) {
 		MudanzaVehiculo mv = findById(id);
 		Vehiculo vehiculo = mv.getVehiculo();
@@ -42,46 +44,44 @@ public class MudanzaVehiculoService {
 		vehiculoRepository.save(vehiculo);
 		mudanzaVehiculoRepository.deleteById(id);
 	}
-
+// Asignar un vehículo a una mudanza, calculando el coste basado en el peso de la mudanza y validando la disponibilidad del vehículo y su capacidad
+	@Transactional
 	public MudanzaVehiculo asignarVehiculo(Long mudanzaId, Long vehiculoId, double pesoMudanza, String observaciones) {
 		Mudanza mudanza = mudanzaRepository.findById(mudanzaId)
 				.orElseThrow(() -> new RuntimeException("Mudanza no encontrada"));
-
 		Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId)
 				.orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+		double costeCalculado = mudanza.getNumeroHoras() * vehiculo.getCostePorHora();
+		LocalDateTime fechaAsignacion = LocalDateTime.now();
 
 		if (!vehiculo.isDisponible()) {
 			throw new VehiculoNoDisponibleException(vehiculo.getMatricula());
 		}
-
 		if (pesoMudanza > vehiculo.getCapacidad()) {
 			throw new CapacidadExcedidaException(vehiculo.getCapacidad());
 		}
 
-		double costeCalculado = mudanza.getNumeroHoras() * vehiculo.getCostePorHora();
 		mudanza.setCoste(costeCalculado);
 		mudanzaRepository.save(mudanza);
-
 		vehiculo.setDisponible(false);
 		vehiculoRepository.save(vehiculo);
 
 		MudanzaVehiculo mv = MudanzaVehiculo.builder().mudanza(mudanza).vehiculo(vehiculo)
-				.estado(EstadoMudanza.EN_ORIGEN).observaciones(observaciones).fechaAsignacion(LocalDateTime.now())
-				.build();
+				.estado(EstadoMudanza.EN_ORIGEN).observaciones(observaciones).fechaAsignacion(fechaAsignacion).build();
 
 		return mudanzaVehiculoRepository.save(mv);
 	}
-
+// Cambiar el estado de una asignación de vehículo a mudanza, liberando el vehículo si la mudanza se ha terminado
+	@Transactional
 	public MudanzaVehiculo cambiarEstado(Long id, EstadoMudanza nuevoEstado) {
 		MudanzaVehiculo mv = findById(id);
+		LocalDateTime fechaLiberacion = LocalDateTime.now();
 		mv.setEstado(nuevoEstado);
-
 		if (nuevoEstado == EstadoMudanza.TERMINADO) {
-			mv.setFechaLiberacion(LocalDateTime.now());
+			mv.setFechaLiberacion(fechaLiberacion);
 			mv.getVehiculo().setDisponible(true);
 			vehiculoRepository.save(mv.getVehiculo());
 		}
-
 		return mudanzaVehiculoRepository.save(mv);
 	}
 }

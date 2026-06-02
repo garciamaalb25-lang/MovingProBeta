@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Mudanzas - MovingPro</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/validaciones.js}"></script>
+</head>
+
+<body>
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+	<div class="main-content">
+		<div class="content-area">
+			<p class="page-title">Mudanzas</p>
+			<p class="page-subtitle">Gestión completa de mudanzas registradas</p>
+			<div class="card-table">
+				<div class="card-header-custom d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 gap-md-0">
+					<h6 class="card-header-title">
+						<i class="bi bi-box-seam me-2"></i>Listado de mudanzas
+					</h6>
+					<div class="d-flex gap-2">
+						<a th:href="@{/mudanza/pdf(fecha=${fechaFiltro}, fechaInicio=${fechaInicioFiltro}, fechaFin=${fechaFinFiltro})}"
+							class="btn-pdf">
+							<i class="bi bi-file-earmark-pdf me-1"></i>Exportar PDF
+						</a>
+						<a sec:authorize="hasAnyRole('ADMIN', 'OPERADOR')" th:href="@{/mudanza/new}" class="btn-nuevo">
+							<i class="bi bi-plus-circle me-1"></i>Nueva Mudanza
+						</a>
+					</div>
+				</div>
+				<div class="search-area">
+					<form th:action="@{/mudanza/buscar}" method="get" class="row g-2 align-items-end">
+						<div class="col-md-3">
+							<label class="form-label">Fecha exacta</label>
+							<input type="date" class="form-control form-control-sm" name="fecha"
+								th:value="${fechaFiltro != null ? #temporals.format(fechaFiltro, 'yyyy-MM-dd') : ''}" />
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Fecha inicio</label>
+							<input type="date" class="form-control form-control-sm" name="fechaInicio"
+								th:value="${fechaInicioFiltro != null ? #temporals.format(fechaInicioFiltro, 'yyyy-MM-dd') : ''}" />
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">Fecha fin</label>
+							<input type="date" class="form-control form-control-sm" name="fechaFin"
+								th:value="${fechaFinFiltro != null ? #temporals.format(fechaFinFiltro, 'yyyy-MM-dd') : ''}" />
+						</div>
+						<div class="col-md-3 d-flex gap-2">
+							<button type="submit" class="btn-buscar">Buscar</button>
+							<a th:href="@{/mudanza}" class="btn-limpiar">Limpiar</a>
+						</div>
+					</form>
+				</div>
+				<table class="table mb-0">
+					<thead>
+						<tr>
+							<th>Código</th>
+							<th>Origen</th>
+							<th>Destino</th>
+							<th>Coste</th>
+							<th>Horas</th>
+							<th>Fecha</th>
+							<th sec:authorize="hasRole('ADMIN')">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="mudanza : ${mudanzas}">
+							<td th:text="${mudanza.codigo}"></td>
+							<td th:text="${mudanza.origen}"></td>
+							<td th:text="${mudanza.destino}"></td>
+							<td th:text="${mudanza.coste} + ' €'"></td>
+							<td th:text="${mudanza.numeroHoras}"></td>
+							<td th:text="${#temporals.format(mudanza.fecha, 'dd/MM/yyyy')}"></td>
+							<td sec:authorize="hasRole('ADMIN')">
+								<a th:href="@{/mudanza/edit/{id}(id=${mudanza.idMudanza})}"
+									class="btn-editar">Editar</a>
+								<a th:href="@{/mudanza/delete/{id}(id=${mudanza.idMudanza})}"
+									class="btn-eliminar-custom btn-eliminar ms-1">Eliminar</a>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(mudanzas)}">
+							<td colspan="7" class="table-empty-msg">No hay mudanzas registradas</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modalConfirmar" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header modal-header-custom">
+					<h5 class="modal-title modal-title-custom">
+						<i class="bi bi-exclamation-triangle text-warning me-2"></i>Confirmar eliminación
+					</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">¿Estás seguro de que quieres eliminar este registro?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{fragments/navbar :: mobilenav}"></div>
+</body>
+
+</html>

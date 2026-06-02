@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Cambiar Estado - MovingPro</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+	<div class="main-content">
+		<div class="content-area">
+			<p class="page-title">Cambiar Estado</p>
+			<p class="page-subtitle">Actualizar el estado de la asignación</p>
+			<div class="form-card">
+				<div class="form-card-header">
+					<h6 class="card-header-title"><i class="bi bi-arrow-repeat me-2"></i>Estado de la asignación</h6>
+				</div>
+				<div class="form-card-body">
+					<div class="info-card">
+						<div class="row g-3">
+							<div class="col-md-4">
+								<p class="info-label">Mudanza</p>
+								<p class="info-value"
+									th:text="${asignacion.mudanza.origen} + ' → ' + ${asignacion.mudanza.destino}"></p>
+							</div>
+							<div class="col-md-4">
+								<p class="info-label">Vehículo</p>
+								<p class="info-value" th:text="${asignacion.vehiculo.matricula}"></p>
+							</div>
+							<div class="col-md-4">
+								<p class="info-label">Estado actual</p>
+								<p class="info-value" th:text="${asignacion.estado}"></p>
+							</div>
+						</div>
+					</div>
+					<form th:action="@{/mudanzavehiculo/estado/{id}(id=${asignacion.idMudanzaVehiculo})}" method="post">
+						<div class="mb-3">
+							<label class="form-label">Nuevo estado</label>
+							<select class="form-select" name="estado" required>
+								<option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"
+									th:selected="${estado == asignacion.estado}"></option>
+							</select>
+						</div>
+						<div class="d-flex gap-3">
+							<button type="submit" class="btn-guardar"><i class="bi bi-check-circle me-1"></i>Actualizar
+								estado</button>
+							<a th:href="@{/mudanzavehiculo}" class="btn-cancelar">Cancelar</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/navbar :: mobilenav}"></div>
+</body>
+
+</html>

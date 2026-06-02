@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Operarios - MovingPro</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/validaciones.js}"></script>
+</head>
+
+<body>
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+	<div class="main-content">
+		<div class="content-area">
+			<p class="page-title">Operarios</p>
+			<p class="page-subtitle">Gestión del equipo de operarios</p>
+			<div class="card-table">
+				<div class="card-header-custom d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 gap-md-0">
+					<h6 class="card-header-title"><i class="bi bi-people me-2"></i>Listado de operarios</h6>
+					<a sec:authorize="hasRole('ADMIN')" th:href="@{/operario/new}" class="btn-nuevo"><i
+							class="bi bi-plus-circle me-1"></i>Nuevo Operario</a>
+				</div>
+				<div class="search-area">
+					<form th:action="@{/operario/buscar}" method="get" class="row g-2 align-items-end">
+						<div class="col-md-4">
+							<label class="form-label">Experiencia mínima (años)</label>
+							<input type="number" class="form-control form-control-sm" name="experienciaMinima" min="0"
+								max="50" />
+						</div>
+						<div class="col-md-4 d-flex gap-2">
+							<button type="submit" class="btn-buscar">Buscar</button>
+							<a th:href="@{/operario}" class="btn-limpiar">Limpiar</a>
+						</div>
+					</form>
+				</div>
+				<table class="table mb-0">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Experiencia (años)</th>
+							<th sec:authorize="hasRole('ADMIN')">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="operario : ${operarios}">
+							<td th:text="${operario.nombre}"></td>
+							<td th:text="${operario.experiencia}"></td>
+							<td sec:authorize="hasRole('ADMIN')">
+								<a th:href="@{/operario/edit/{id}(id=${operario.idOperario})}"
+									class="btn-editar">Editar</a>
+								<a th:href="@{/operario/delete/{id}(id=${operario.idOperario})}"
+									class="btn-eliminar-custom btn-eliminar ms-1">Eliminar</a>
+							</td>
+						</tr>
+						<tr th:if="${#lists.isEmpty(operarios)}">
+							<td colspan="3" class="table-empty-msg">No hay operarios registrados</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modalConfirmar" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header modal-header-custom">
+					<h5 class="modal-title modal-title-custom"><i
+							class="bi bi-exclamation-triangle text-warning me-2"></i>Confirmar eliminación</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+				</div>
+				<div class="modal-body">¿Estás seguro de que quieres eliminar este registro?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/navbar :: mobilenav}"></div>
+</body>
+
+</html>

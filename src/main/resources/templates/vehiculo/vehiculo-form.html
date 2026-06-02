@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Formulario Vehículo - MovingPro</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/responsive.css}">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script th:src="@{/js/validaciones.js}"></script>
+</head>
+
+<body>
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+	<div th:replace="~{fragments/navbar :: navbar}"></div>
+	<div class="main-content">
+		<div class="content-area">
+			<p class="page-title" th:text="${vehiculo.idVehiculo == null} ? 'Nuevo Vehículo' : 'Editar Vehículo'"></p>
+			<p class="page-subtitle">Completa los datos del formulario</p>
+			<div class="form-card">
+				<div class="form-card-header">
+					<h6 class="card-header-title"><i class="bi bi-truck me-2"></i>Datos del vehículo</h6>
+				</div>
+				<div class="form-card-body">
+					<form th:action="@{/vehiculo/save}" th:object="${vehiculo}" method="post">
+						<input type="hidden" th:field="*{idVehiculo}" />
+						<div class="row g-3">
+							<div class="col-md-6">
+								<label class="form-label">Matrícula</label>
+								<input type="text" class="form-control" th:field="*{matricula}" id="matricula"
+									pattern="[0-9]{4}[A-Z]{3}" placeholder="Ej: 1234ABC" required
+									th:classappend="${#fields.hasErrors('matricula')} ? 'is-invalid'" />
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('matricula')}"
+									th:errors="*{matricula}"></div>
+								<div class="form-text">Formato: 4 números + 3 letras mayúsculas</div>
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Disponible</label>
+								<select class="form-select" th:field="*{disponible}">
+									<option value="true">Sí</option>
+									<option value="false">No</option>
+								</select>
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Capacidad (kg)</label>
+								<input type="number" step="0.01" min="100" max="30000" class="form-control"
+									th:field="*{capacidad}" required
+									th:classappend="${#fields.hasErrors('capacidad')} ? 'is-invalid'" />
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('capacidad')}"
+									th:errors="*{capacidad}"></div>
+								<div class="form-text">Entre 100 kg y 30000 kg</div>
+							</div>
+							<div class="col-md-6">
+								<label class="form-label">Coste por Hora (€)</label>
+								<input type="number" step="0.01" min="10" max="500" class="form-control"
+									th:field="*{costePorHora}" id="costePorHora" required
+									th:classappend="${#fields.hasErrors('costePorHora')} ? 'is-invalid'" />
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('costePorHora')}"
+									th:errors="*{costePorHora}"></div>
+								<div class="form-text">Entre 10 € y 500 € por hora</div>
+							</div>
+						</div>
+						<div class="mt-4 d-flex gap-3">
+							<button type="submit" class="btn-guardar"><i
+									class="bi bi-check-circle me-1"></i>Guardar</button>
+							<a th:href="@{/vehiculo}" class="btn-cancelar">Cancelar</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="~{fragments/navbar :: mobilenav}"></div>
+</body>
+
+</html>
