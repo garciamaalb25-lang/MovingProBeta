@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.salesianostriana.dam.movingprobeta.model.Vehiculo;
 import com.salesianostriana.dam.movingprobeta.service.VehiculoService;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -30,7 +32,9 @@ public class VehiculoController {
 	@GetMapping("/new")
 	public String newForm(Model model) {
 		Vehiculo vehiculo = new Vehiculo();
+		vehiculo.setDisponible(true);
 		model.addAttribute("vehiculo", vehiculo);
+		model.addAttribute("isAssigned", false);
 		return "vehiculo/vehiculo-form";
 	}
 // Mostrar formulario para editar vehículo existente
@@ -38,11 +42,36 @@ public class VehiculoController {
 	public String editForm(@PathVariable Long id, Model model) {
 		Vehiculo vehiculo = vehiculoService.findById(id);
 		model.addAttribute("vehiculo", vehiculo);
+		model.addAttribute("isAssigned", !vehiculo.isDisponible());
 		return "vehiculo/vehiculo-form";
 	}
 // Guardar nuevo vehículo o actualizar existente
 	@PostMapping("/save")
-	public String save(@ModelAttribute Vehiculo vehiculo) {
+	public String save(@Valid @ModelAttribute Vehiculo vehiculo, BindingResult result, Model model) {
+		boolean isAssigned = false;
+		if (vehiculo.getIdVehiculo() != null) {
+			Vehiculo existing = vehiculoService.findById(vehiculo.getIdVehiculo());
+			isAssigned = !existing.isDisponible();
+			if (isAssigned) {
+				if (existing.getCapacidad() != vehiculo.getCapacidad()) {
+					result.rejectValue("capacidad", "error.vehiculo", "No se puede cambiar la capacidad de un vehículo asignado a una mudanza activa.");
+				}
+				if (existing.getCostePorHora() != vehiculo.getCostePorHora()) {
+					result.rejectValue("costePorHora", "error.vehiculo", "No se puede cambiar el coste por hora de un vehículo asignado a una mudanza activa.");
+				}
+				if (!existing.getMatricula().equals(vehiculo.getMatricula())) {
+					result.rejectValue("matricula", "error.vehiculo", "No se puede cambiar la matrícula de un vehículo asignado a una mudanza activa.");
+				}
+				if (vehiculo.isDisponible()) {
+					result.rejectValue("disponible", "error.vehiculo", "No se puede cambiar la disponibilidad manualmente si el vehículo está asignado.");
+				}
+			}
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("isAssigned", isAssigned);
+			return "vehiculo/vehiculo-form";
+		}
 		vehiculoService.save(vehiculo);
 		return "redirect:/vehiculo";
 	}

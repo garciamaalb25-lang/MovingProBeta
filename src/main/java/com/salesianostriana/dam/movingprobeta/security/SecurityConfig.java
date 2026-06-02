@@ -16,6 +16,7 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/login", "/css/**", "/js/**").permitAll()
+				.requestMatchers("/h2-console/**").hasRole("ADMIN")
 				.requestMatchers("/mudanza/delete/**", "/vehiculo/delete/**", "/operario/delete/**",
 						"/mudanzavehiculo/delete/**")
 				.hasRole("ADMIN").requestMatchers("/mudanza/edit/**", "/vehiculo/edit/**", "/operario/edit/**")
@@ -26,6 +27,14 @@ public class SecurityConfig {
 					cache.requestCache(requestCache);
 				}).formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/", true).permitAll())
 				.logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/login").permitAll());
+
+		http.csrf(csrf -> csrf
+				.ignoringRequestMatchers("/h2-console/**")
+		);
+
+		http.headers(headers -> headers
+				.frameOptions(opts -> opts.disable())
+		);
 
 		return http.build();
 	}

@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -51,6 +52,7 @@ public class Mudanza {
 	private int numeroHoras;
 
 	@NotNull(message = "La fecha no puede estar vacía")
+	@FutureOrPresent(message = "La fecha no puede ser en el pasado")
 	private LocalDate fecha;
 
 	@ManyToMany

@@ -21,6 +21,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.salesianostriana.dam.movingprobeta.model.EstadoMudanza;
 import com.salesianostriana.dam.movingprobeta.model.Mudanza;
 import com.salesianostriana.dam.movingprobeta.service.MudanzaService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -50,6 +51,7 @@ public class MudanzaController {
 	public String newForm(Model model) {
 		Mudanza mudanza = new Mudanza();
 		model.addAttribute("mudanza", mudanza);
+		model.addAttribute("isAssigned", false);
 		return "mudanza/mudanza-form";
 	}
 
@@ -57,14 +59,42 @@ public class MudanzaController {
 	@GetMapping("/edit/{id}")
 	public String editForm(@PathVariable Long id, Model model) {
 		Mudanza mudanza = mudanzaService.findById(id);
+		boolean isAssigned = mudanza.getVehiculos().stream()
+				.anyMatch(mv -> mv.getEstado() != EstadoMudanza.TERMINADO);
 		model.addAttribute("mudanza", mudanza);
+		model.addAttribute("isAssigned", isAssigned);
 		return "mudanza/mudanza-form";
 	}
 
 // Guardar nueva mudanza o actualizar existente
 	@PostMapping("/save")
-	public String save(@Valid @ModelAttribute Mudanza mudanza, BindingResult result) {
+	public String save(@Valid @ModelAttribute Mudanza mudanza, BindingResult result, Model model) {
+		boolean isAssigned = false;
+		if (mudanza.getIdMudanza() != null) {
+			Mudanza existing = mudanzaService.findById(mudanza.getIdMudanza());
+			isAssigned = existing.getVehiculos().stream()
+					.anyMatch(mv -> mv.getEstado() != EstadoMudanza.TERMINADO);
+			if (isAssigned) {
+				if (!existing.getFecha().equals(mudanza.getFecha())) {
+					result.rejectValue("fecha", "error.mudanza", "No se puede cambiar la fecha de una mudanza ya asignada a un vehículo.");
+				}
+				if (existing.getCodigo() != mudanza.getCodigo()) {
+					result.rejectValue("codigo", "error.mudanza", "No se puede cambiar el código de una mudanza ya asignada a un vehículo.");
+				}
+				if (existing.getNumeroHoras() != mudanza.getNumeroHoras()) {
+					result.rejectValue("numeroHoras", "error.mudanza", "No se puede cambiar las horas de una mudanza ya asignada a un vehículo.");
+				}
+				if (!existing.getOrigen().equals(mudanza.getOrigen())) {
+					result.rejectValue("origen", "error.mudanza", "No se puede cambiar el origen de una mudanza ya asignada a un vehículo.");
+				}
+				if (!existing.getDestino().equals(mudanza.getDestino())) {
+					result.rejectValue("destino", "error.mudanza", "No se puede cambiar el destino de una mudanza ya asignada a un vehículo.");
+				}
+			}
+		}
+
 		if (result.hasErrors()) {
+			model.addAttribute("isAssigned", isAssigned);
 			return "mudanza/mudanza-form";
 		}
 		mudanzaService.save(mudanza);
