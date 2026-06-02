@@ -2,43 +2,37 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <body>
-	<div th:fragment="navbar" id="topNavbar"
-		style="position: fixed; top: 0; left: 250px; right: 0; height: 60px; background: #ffffff; border-bottom: 0.5px solid #B5D4F4; z-index: 99; display: flex; align-items: center; justify-content: space-between; padding: 0 30px;">
-
-		<div style="display: flex; align-items: center; gap: 8px;">
-			<i class="bi bi-speedometer2" style="color: #1B3A6B; font-size: 18px;"></i>
-			<span style="color: #1B3A6B; font-size: 15px; font-weight: 600;">Panel de control</span>
+	<div th:fragment="navbar" id="topNavbar" class="top-navbar">
+		<div class="d-flex align-items-center gap-2">
+			<i class="bi bi-speedometer2 navbar-brand-icon"></i>
+			<span class="navbar-brand-text">Panel de control</span>
 		</div>
 
-		<div style="display: flex; align-items: center; gap: 12px;">
-			<span style="background: #E6F1FB; color: #1B3A6B; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
-				sec:authorize="hasRole('ADMIN')">
+		<div class="d-flex align-items-center gap-3">
+			<span class="role-badge-admin" sec:authorize="hasRole('ADMIN')">
 				<i class="bi bi-shield-check me-1"></i>Admin
 			</span>
-			<span style="background: #E1F5EE; color: #085041; font-size: 12px; padding: 4px 12px; border-radius: 20px;"
-				sec:authorize="hasRole('OPERADOR')">
+			<span class="role-badge-operador" sec:authorize="hasRole('OPERADOR')">
 				<i class="bi bi-person-check me-1"></i>Operador
 			</span>
 		</div>
 	</div>
 
-	<div th:fragment="mobilenav" class="mobile-nav"
-		style="display: none; position: fixed; bottom: 0; left: 0; right: 0; background: #1B3A6B; padding: 10px 0; z-index: 99; justify-content: space-around;">
-		<a th:href="@{/}" style="color: #FAC775; text-decoration: none; text-align: center; font-size: 10px;">
-			<i class="bi bi-speedometer2 d-block" style="font-size: 20px;"></i>Inicio
+	<div th:fragment="mobilenav" class="mobile-nav d-flex d-md-none">
+		<a th:href="@{/}" class="mobile-nav-link active">
+			<i class="bi bi-speedometer2"></i>Inicio
 		</a>
-		<a th:href="@{/mudanza}" style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
-			<i class="bi bi-box-seam d-block" style="font-size: 20px;"></i>Mudanzas
+		<a th:href="@{/mudanza}" class="mobile-nav-link">
+			<i class="bi bi-box-seam"></i>Mudanzas
 		</a>
-		<a th:href="@{/vehiculo}" style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
-			<i class="bi bi-truck d-block" style="font-size: 20px;"></i>Vehículos
+		<a th:href="@{/vehiculo}" class="mobile-nav-link">
+			<i class="bi bi-truck"></i>Vehículos
 		</a>
-		<a th:href="@{/operario}" style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
-			<i class="bi bi-people d-block" style="font-size: 20px;"></i>Operarios
+		<a th:href="@{/operario}" class="mobile-nav-link">
+			<i class="bi bi-people"></i>Operarios
 		</a>
-		<a th:href="@{/mudanzavehiculo}"
-			style="color: #E6F1FB; text-decoration: none; text-align: center; font-size: 10px;">
-			<i class="bi bi-link-45deg d-block" style="font-size: 20px;"></i>Asignar
+		<a th:href="@{/mudanzavehiculo}" class="mobile-nav-link">
+			<i class="bi bi-link-45deg"></i>Asignar
 		</a>
 	</div>
 </body>
